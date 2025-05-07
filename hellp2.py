@@ -1,77 +1,28 @@
-import pywhatkit
-import pyautogui
-import time
+import asyncio
+from telegram import Bot
 import logging
-import os
-import pkg_resources
-import shutil
 
-# Set up logging
-logging.basicConfig(filename='whatsapp_message.log', level=logging.INFO,
+# Setup logging
+logging.basicConfig(filename='telegram_message.log', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-def send_whatsapp_message(phone_number, message):
-    """Send a WhatsApp message using pywhatkit with reliable Enter keypress on Chromium.
-    
-    Args:
-        phone_number (str): Recipient's phone number in international format (e.g., +1234567890)
-        message (str): Message to send
-    """
+async def send_test_message(bot_token, chat_id, message="Test message from @PytstsyToDobot! 🍕"):
     try:
-        # Log pywhatkit version for debugging
-        pywhatkit_version = pkg_resources.get_distribution("pywhatkit").version
-        logging.info(f"Using pywhatkit version: {pywhatkit_version}")
-        
-        # Configure pyautogui for reliability
-        pyautogui.FAILSAFE = True
-        pyautogui.PAUSE = 0.5  # Slight delay between actions
-        
-        # Send message instantly
-        pywhatkit.sendwhatmsg_instantly(
-            phone_no=phone_number,
-            message=message,
-            wait_time=20,  # Increased for Chromium to load WhatsApp Web
-            #tab_close=True
-        )
-        
-        # Wait for WhatsApp Web to load and message to be typed
-        time.sleep(8)
-        
-        # Ensure browser window is active by simulating a click
-        pyautogui.click(x=100, y=100)  # Click in a safe area to focus window
-        
-        # Refocus Chromium window to keep it in foreground
-        time.sleep(1)
-        pyautogui.hotkey("alt", "tab")  # Switch back to Chromium
-        logging.info("Refocused Chromium window")
-
-        # Press Enter once to send the message
-        pyautogui.press("enter")
-        logging.info("Pressed Enter to send message")
-        
-        logging.info(f"Successfully sent message to {phone_number}: {message}")
+        bot = Bot(token=bot_token)
+        await bot.send_message(chat_id=chat_id, text=message)
+        logging.info(f"Message sent to chat ID {chat_id}: {message}")
+        print(f"Message sent successfully to chat ID {chat_id}!")
     except Exception as e:
-        logging.error(f"Failed to send message to {phone_number}: {str(e)}")
+        logging.error(f"Failed to send message to chat ID {chat_id}: {str(e)}")
+        print(f"Error for chat ID {chat_id}: {str(e)}")
 
 if __name__ == "__main__":
-    # Check for X11 dependencies for pyautogui on Linux
-    try:
-        import Xlib
-    except ImportError:
-        logging.error("PyAutoGUI requires python3-xlib. Install it with: sudo pip install python-xlib")
-        print("Please install python3-xlib: sudo pip install python-xlib")
-        exit(1)
-    
-    # Check if Chromium is installed
-    if not shutil.which("chromium"):
-        logging.error("Chromium not found. Install it with: sudo apt install chromium")
-        print("Please install Chromium: sudo apt install chromium" \
-        "" \
-        "")
-        exit(1)
-    
-    # Example usage
-    phone_number = "+41793811576"  # Your provided number
-    message = "Hello from pywhatkit and pyautogui! 007"
+    BOT_TOKEN = "7836218242:AAEz4p9jgZPrj5wF2OqA4tv1NSM2RKCgfx8"  # Replace with your @PytstsyToDobot token
+    GROUP_CHAT_ID = "-1002593119445"  # MammamiaPizzeria chat ID
+    USER_CHAT_ID = "1502264833"  # Replace with your user ID (e.g., 123456789)
 
-    send_whatsapp_message(phone_number, message)
+    # Run async function
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(send_test_message(BOT_TOKEN, GROUP_CHAT_ID))
+    # Uncomment to test private chat
+    # loop.run_until_complete(send_test_message(BOT_TOKEN, USER_CHAT_ID, "Private test from @PytstsyToDobot! 🍕"))

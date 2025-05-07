@@ -1,0 +1,5 @@
+2025-05-07 19:31:37,203 - INFO - Test message sent to chat ID -4783251284
+2025-05-07 19:41:56,200 - INFO - Test message sent to chat ID -4783251284
+2025-05-07 19:46:30,198 - INFO - Test message sent to chat ID -1002593119445
+2025-05-07 19:58:51,959 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAEz4p9jgZPrj5wF2OqA4tv1NSM2RKCgfx8/sendMessage "HTTP/1.1 200 OK"
+2025-05-07 19:58:51,962 - INFO - Message sent to chat ID -1002593119445: Test message from @PytstsyToDobot! 🍕
