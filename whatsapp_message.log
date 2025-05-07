@@ -1,0 +1,70 @@
+2025-05-07 13:10:01,519 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui!
+
+2025-05-07 13:20:30,312 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui!
+
+2025-05-07 13:23:12,975 - ERROR - Failed to send message to +41793811576: sendwhatmsg_instantly() got an unexpected keyword argument 'browser'
+2025-05-07 13:23:34,560 - ERROR - Failed to send message to +41793811576: sendwhatmsg_instantly() got an unexpected keyword argument 'browser'
+2025-05-07 13:24:13,987 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui!
+2025-05-07 13:31:48,374 - ERROR - Failed to send message to +41793811576: sendwhatmsg_instantly() got an unexpected keyword argument 'phone_number'
+2025-05-07 13:31:59,554 - ERROR - Failed to send message to +41793811576: sendwhatmsg_instantly() got an unexpected keyword argument 'phone_number'
+2025-05-07 13:32:34,584 - ERROR - Failed to send message to +41793811576: sendwhatmsg_instantly() got an unexpected keyword argument 'phone_number'
+2025-05-07 13:33:30,791 - ERROR - Failed to send message to +41793811576: sendwhatmsg_instantly() got an unexpected keyword argument 'phone_number'
+2025-05-07 13:35:42,998 - INFO - Using pywhatkit version: 5.4
+2025-05-07 13:35:42,999 - ERROR - Failed to send message to +41793811576: sendwhatmsg_instantly() got an unexpected keyword argument 'browser'
+2025-05-07 13:36:10,627 - INFO - Using pywhatkit version: 5.4
+2025-05-07 13:36:10,628 - ERROR - Failed to send message to +41793811576: sendwhatmsg_instantly() got an unexpected keyword argument 'browser'
+2025-05-07 13:38:13,391 - ERROR - Chromium not found. Install it with: sudo apt install chromium-browser
+2025-05-07 13:38:37,104 - INFO - Using pywhatkit version: 5.4
+2025-05-07 13:39:13,002 - INFO - Pressed Enter (attempt 1)
+2025-05-07 13:39:14,505 - INFO - Pressed Enter (attempt 2)
+2025-05-07 13:39:16,041 - INFO - Pressed Enter (attempt 3)
+2025-05-07 13:39:16,041 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui!
+
+2025-05-07 13:39:37,073 - INFO - Using pywhatkit version: 5.4
+2025-05-07 13:40:17,298 - INFO - Pressed Enter (attempt 1)
+2025-05-07 13:40:18,805 - INFO - Pressed Enter (attempt 2)
+2025-05-07 13:40:20,310 - INFO - Pressed Enter (attempt 3)
+2025-05-07 13:40:20,311 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui!
+
+2025-05-07 13:40:59,733 - INFO - Using pywhatkit version: 5.4
+2025-05-07 13:41:39,837 - INFO - Pressed Enter (attempt 1)
+2025-05-07 13:41:41,343 - INFO - Pressed Enter (attempt 2)
+2025-05-07 13:41:42,846 - INFO - Pressed Enter (attempt 3)
+2025-05-07 13:41:42,847 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui!
+
+2025-05-07 13:42:15,273 - INFO - Using pywhatkit version: 5.4
+2025-05-07 13:42:55,463 - INFO - Pressed Enter (attempt 1)
+2025-05-07 13:42:56,968 - INFO - Pressed Enter (attempt 2)
+2025-05-07 13:42:58,472 - INFO - Pressed Enter (attempt 3)
+2025-05-07 13:42:58,472 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui! 123
+2025-05-07 13:43:57,626 - INFO - Using pywhatkit version: 5.4
+2025-05-07 13:44:33,342 - INFO - Pressed Enter (attempt 1)
+2025-05-07 13:44:34,848 - INFO - Pressed Enter (attempt 2)
+2025-05-07 13:44:36,355 - INFO - Pressed Enter (attempt 3)
+2025-05-07 13:44:36,355 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui! 123
+2025-05-07 13:58:22,568 - INFO - Using pywhatkit version: 5.4
+2025-05-07 13:58:57,800 - INFO - Pressed Enter to send message
+2025-05-07 13:58:59,317 - INFO - Refocused Chromium window
+2025-05-07 13:58:59,318 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui! 4
+2025-05-07 13:59:57,838 - INFO - Using pywhatkit version: 5.4
+2025-05-07 14:00:34,168 - INFO - Pressed Enter (attempt 1)
+2025-05-07 14:00:35,683 - INFO - Pressed Enter (attempt 2)
+2025-05-07 14:00:37,187 - INFO - Pressed Enter (attempt 3)
+2025-05-07 14:00:37,188 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui! 4
+2025-05-07 14:01:12,529 - INFO - Using pywhatkit version: 5.4
+2025-05-07 14:01:48,712 - INFO - Pressed Enter (attempt 1)
+2025-05-07 14:01:50,218 - INFO - Pressed Enter (attempt 2)
+2025-05-07 14:01:51,722 - INFO - Pressed Enter (attempt 3)
+2025-05-07 14:01:51,723 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui! 5
+2025-05-07 14:04:36,726 - INFO - Using pywhatkit version: 5.4
+2025-05-07 14:05:10,925 - INFO - Pressed Enter to send message
+2025-05-07 14:05:12,434 - INFO - Refocused Chromium window
+2025-05-07 14:05:12,434 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui! 11
+2025-05-07 14:08:03,825 - INFO - Using pywhatkit version: 5.4
+2025-05-07 14:08:40,037 - INFO - Refocused Chromium window
+2025-05-07 14:08:40,561 - INFO - Pressed Enter to send message
+2025-05-07 14:08:40,561 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui! 00
+2025-05-07 14:09:33,036 - INFO - Using pywhatkit version: 5.4
+2025-05-07 14:10:12,733 - INFO - Refocused Chromium window
+2025-05-07 14:10:13,240 - INFO - Pressed Enter to send message
+2025-05-07 14:10:13,240 - INFO - Successfully sent message to +41793811576: Hello from pywhatkit and pyautogui! 007
