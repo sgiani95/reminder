@@ -5,11 +5,11 @@ A Python module for a Telegram bot that manages scheduled messages for group cha
 ## Features
 
 - **Terminated Events**: Schedule one-time events with reminders at 8 AM for three days (two days before, one day before, day of).
-  - Example: `/add Pizza night! 2025-07-25 19:00` → Reminders on 2025-07-23, 2025-07-24, 2025-07-25 at 8 AM.
+  - Example: `/todo Pizza night! 2025-07-25 19:00` → Reminders on 2025-07-23, 2025-07-24, 2025-07-25 at 8 AM.
 - **To-Do Events**: Add tasks with daily 8 AM reminders until completed.
-  - Example: `/add Fix bike todo` → Daily reminders until `/done Fix bike`.
+  - Example: `/todo Fix bike todo` → Daily reminders until `/done Fix bike`.
 - **Commands**: Mobile-friendly, sent in group chat (e.g., "MammamiaPizzeria").
-  - `/add <message> <YYYY-MM-DD HH:MM|MM-DD HH:MM|todo>`: Add event.
+  - `/todo <message> <YYYY-MM-DD HH:MM|MM-DD HH:MM|todo>`: Add event.
   - `/done <message>`: Complete to-do, notifies group (e.g., "Fix bike completed by @UserName").
   - `/list`: Show upcoming events.
   - `/help`: Show commands.
@@ -55,13 +55,13 @@ A Python module for a Telegram bot that manages scheduled messages for group cha
 - **Add Terminated Event**:
 
   ```bash
-  /add Pizza night! 2025-07-25 19:00
-  /add Pizza night! 07-25 19:00  # Uses 2025 or 2026 if past
+  /todo Pizza night! 2025-07-25 19:00
+  /todo Pizza night! 07-25 19:00  # Uses 2025 or 2026 if past
   ```
 - **Add To-Do**:
 
   ```bash
-  /add Fix bike todo
+  /todo Fix bike todo
   ```
 - **Complete To-Do**:
 

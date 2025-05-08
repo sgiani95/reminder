@@ -3,3 +3,27 @@
 2025-05-07 19:46:30,198 - INFO - Test message sent to chat ID -1002593119445
 2025-05-07 19:58:51,959 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAEz4p9jgZPrj5wF2OqA4tv1NSM2RKCgfx8/sendMessage "HTTP/1.1 200 OK"
 2025-05-07 19:58:51,962 - INFO - Message sent to chat ID -1002593119445: Test message from @PytstsyToDobot! 🍕
+2025-05-08 07:57:48,963 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAEz4p9jgZPrj5wF2OqA4tv1NSM2RKCgfx8/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 07:57:48,965 - INFO - Message sent to chat ID -1002593119445: Test message from @PytstsyToDobot! 🍕
+2025-05-08 08:06:57,018 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAEz4p9jgZPrj5wF2OqA4tv1NSM2RKCgfx8/sendMessage "HTTP/1.1 401 Unauthorized"
+2025-05-08 08:06:57,020 - ERROR - Failed to send message to chat ID -1002593119445: Unauthorized
+2025-05-08 08:07:10,701 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAErQTHFy-LiPSTZeAqb2JYk-q6euCZtHRw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 08:07:10,703 - INFO - Message sent to chat ID -1002593119445: Test message from @PytstsyToDobot! 🍕
+2025-05-08 08:13:18,981 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAErQTHFy-LiPSTZeAqb2JYk-q6euCZtHRw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 08:13:18,984 - INFO - Message sent to chat ID -1002593119445: Test message from @PytstsyToDobot! 🍕
+2025-05-08 08:13:19,198 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAErQTHFy-LiPSTZeAqb2JYk-q6euCZtHRw/sendMessage "HTTP/1.1 400 Bad Request"
+2025-05-08 08:13:19,200 - ERROR - Failed to send message to chat ID 1502264833: Chat not found
+2025-05-08 08:13:50,067 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAErQTHFy-LiPSTZeAqb2JYk-q6euCZtHRw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 08:13:50,070 - INFO - Message sent to chat ID -1002593119445: Test message from @PytstsyToDobot! 🍕
+2025-05-08 08:13:50,303 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAErQTHFy-LiPSTZeAqb2JYk-q6euCZtHRw/sendMessage "HTTP/1.1 400 Bad Request"
+2025-05-08 08:13:50,304 - ERROR - Failed to send message to chat ID 1502264833: Chat not found
+2025-05-08 08:14:07,167 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAErQTHFy-LiPSTZeAqb2JYk-q6euCZtHRw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 08:14:07,169 - INFO - Message sent to chat ID -1002593119445: Test message from @PytstsyToDobot! 🍕
+2025-05-08 08:14:07,388 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAErQTHFy-LiPSTZeAqb2JYk-q6euCZtHRw/sendMessage "HTTP/1.1 400 Bad Request"
+2025-05-08 08:14:07,389 - ERROR - Failed to send message to chat ID 1502264833: Chat not found
+2025-05-08 08:14:26,368 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAErQTHFy-LiPSTZeAqb2JYk-q6euCZtHRw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 08:14:26,371 - INFO - Message sent to chat ID -1002593119445: Test message from @PytstsyToDobot! 🍕🍕
+2025-05-08 08:14:26,602 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAErQTHFy-LiPSTZeAqb2JYk-q6euCZtHRw/sendMessage "HTTP/1.1 400 Bad Request"
+2025-05-08 08:14:26,604 - ERROR - Failed to send message to chat ID 1502264833: Chat not found
+2025-05-08 08:16:33,572 - INFO - HTTP Request: POST https://api.telegram.org/bot7836218242:AAErQTHFy-LiPSTZeAqb2JYk-q6euCZtHRw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 08:16:33,574 - INFO - Message sent to chat ID -1002593119445: Test message from @PytstsyToDobot! 🍕

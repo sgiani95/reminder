@@ -1,6 +1,7 @@
 import asyncio
 from telegram import Bot
 import logging
+import os
 
 # Setup logging
 logging.basicConfig(filename='telegram_message.log', level=logging.INFO,
@@ -17,7 +18,10 @@ async def send_test_message(bot_token, chat_id, message="Test message from @Pyts
         print(f"Error for chat ID {chat_id}: {str(e)}")
 
 if __name__ == "__main__":
-    BOT_TOKEN = "7836218242:AAEz4p9jgZPrj5wF2OqA4tv1NSM2RKCgfx8"  # Replace with your @PytstsyToDobot token
+    
+    BOT_TOKEN = os.getenv("BOT_TOKEN")  # Load token from environment variable
+    if not BOT_TOKEN:
+        raise ValueError("BOT_TOKEN environment variable not set")
     GROUP_CHAT_ID = "-1002593119445"  # MammamiaPizzeria chat ID
     USER_CHAT_ID = "1502264833"  # Replace with your user ID (e.g., 123456789)
 
