@@ -1,53 +1,51 @@
-from datetime import datetime, date
+from datetime import datetime
 import re
-from typing import Union, Tuple
-import logging
-
-def parse_datetime(time_input: str) -> Tuple[Union[datetime, None], str, bool]:
-    """Parse and validate datetime, infer year if missing, return (datetime, formatted_time, is_inferred)."""
-    logging.info(f"Parsing datetime: {time_input}")
-    # Regex for YYYY-MM-DD HH:MM or MM-DD HH:MM
-    time_match = re.match(r"^(\d{4}-\d{2}-\d{2}|\d{1,2}-\d{1,2}) \d{2}:\d{2}$", time_input)
-    if not time_match:
-        logging.warning(f"Invalid datetime format: {time_input}")
-        return None, "", False
-
-    is_inferred = False
-    try:
-        if len(time_input.split("-")[0]) == 2:  # MM-DD HH:MM
-            month, day = map(int, time_input.split(" ")[0].split("-"))
-            hour, minute = map(int, time_input.split(" ")[1].split(":"))
-            current_year = datetime.now().year
-            today = date.today()
-            event_date = date(current_year, month, day)
-            # Infer year: next year if before today, current year otherwise
-            year = current_year + 1 if event_date < today else current_year
-            time_input = f"{year:04d}-{month:02d}-{day:02d} {hour:02d}:{minute:02d}"
-            is_inferred = True
-        # Parse and validate datetime
-        dt = datetime.strptime(time_input, "%Y-%m-%d %H:%M")
-        logging.info(f"Parsed datetime: {dt}")
-        return dt, time_input, is_inferred
-    except ValueError as e:
-        logging.error(f"Error parsing datetime: {str(e)}")
-        return None, "", False
-
-def validate_todo(message: str, events: list) -> bool:
-    """Check if to-do message is unique and valid."""
-    if not message or len(message) > 4096:
-        return False
-    return not any(event["message"] == message and event["type"] == "todo" and event["active"] for event in events)
 
 def check_message_format(message: str) -> bool:
-    """Ensure message is non-empty and within Telegram limits."""
-    return bool(message) and len(message) <= 4096
+    """Check if the message is not empty and meets basic format requirements."""
+    if not message or message.strip() == "":
+        return False
+    return True
+
+def validate_todo(message: str, events: list) -> bool:
+    """Check if a to-do is not a duplicate."""
+    for event in events:
+        if event["message"] == message and event["type"] == "todo" and event["active"]:
+            return False
+    return True
+
+def parse_datetime(time_str: str):
+    """Parse datetime string and infer year if not provided."""
+    formats = [
+        "%Y-%m-%d %H:%M",
+        "%m-%d %H:%M"
+    ]
+    is_inferred = False
+    dt = None
+    formatted_time = time_str
+
+    for fmt in formats:
+        try:
+            dt = datetime.strptime(time_str, fmt)
+            if fmt == "%m-%d %H:%M":
+                # Infer year: use next year if date has passed
+                current_year = datetime.now().year
+                dt = dt.replace(year=current_year)
+                if dt < datetime.now():
+                    dt = dt.replace(year=current_year + 1)
+                is_inferred = True
+                formatted_time = dt.strftime("%Y-%m-%d %H:%M")
+            break
+        except ValueError:
+            continue
+
+    return dt, formatted_time, is_inferred
 
 def get_error_message(error_type: str) -> str:
-    """Generate user-friendly error messages."""
-    errors = {
+    """Return appropriate error message based on error type."""
+    error_messages = {
         "empty": "❌ Message cannot be empty",
-        "invalid_time": "❌ Invalid time format. Use YYYY-MM-DD HH:MM or MM-DD HH:MM",
-        "duplicate_todo": "❌ To-do already exists",
-        "invalid_message": "❌ Message too long or invalid"
+        "duplicate_todo": "❌ This to-do already exists",
+        "invalid_time": "❌ Invalid time format. Use YYYY-MM-DD HH:MM or MM-DD HH:MM"
     }
-    return errors.get(error_type, "❌ Unknown error")
+    return error_messages.get(error_type, "❌ Unknown error")

@@ -15,24 +15,32 @@ CONFIRMATION = 0
 
 async def validate_group(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
     """Ensure commands are sent from MammamiaPizzeria group."""
-    if str(update.effective_chat.id) != GROUP_CHAT_ID:
-        await update.message.reply_text("🚫 This bot only works in the MammamiaPizzeria group!")
-        logging.warning(f"Unauthorized access attempt from chat ID {update.effective_chat.id}")
+    if not update.effective_chat or str(update.effective_chat.id) != GROUP_CHAT_ID:
+        if update.effective_message:
+            await update.effective_message.reply_text("🚫 This bot only works in the MammamiaPizzeria group!")
+        logging.warning(f"Unauthorized access attempt from chat ID {update.effective_chat.id if update.effective_chat else 'None'}")
         return False
     return True
 
 async def format_response(message: str) -> str:
     """Format response with emojis and mobile-friendly layout."""
-    return f"{message}\n🍕 Powered by @PytstsyToDobot"
+    return f"{message}\n🍕 Powered by @PytstsyTestBot"
 
 async def send_message(update: Update, context: ContextTypes.DEFAULT_TYPE, message: str):
     """Send a message to the group."""
+    if not update.effective_message:
+        logging.error("No effective message available to reply")
+        return
     formatted_message = await format_response(message)
-    await update.message.reply_text(formatted_message)
-    logging.info(f"Sent message to {GROUP_CHAT_ID}: {message}")
+    try:
+        await update.effective_message.reply_text(formatted_message)
+        logging.info(f"Sent message to {GROUP_CHAT_ID}: {message}")
+    except Exception as e:
+        logging.error(f"Failed to send message: {str(e)}")
 
 async def todo_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /todo <message> [YYYY-MM-DD HH:MM|MM-DD HH:MM] command."""
+    logging.info("Entering todo_command")
     if not await validate_group(update, context):
         return None
 
@@ -90,6 +98,7 @@ async def todo_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     "chat_id": GROUP_CHAT_ID
                 }
                 await send_message(update, context, f"Interpreted as {time_input} [Y/n]")
+                logging.info(f"Entered CONFIRMATION state for {time_input}")
                 return CONFIRMATION
         except Exception as e:
             logging.error(f"Error parsing datetime in /todo: {str(e)}")
@@ -112,15 +121,20 @@ async def todo_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def confirm_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle confirmation response for inferred dates."""
+    logging.info("Entering confirm_date")
     if not await validate_group(update, context):
-        return None
+        return ConversationHandler.END
 
-    response = update.message.text.lower()
+    if not update.effective_message:
+        logging.error("No effective message available in confirm_date")
+        return ConversationHandler.END
+
+    response = update.effective_message.text.lower()
     pending_event = context.user_data.get("pending_event")
 
     if not pending_event:
         await send_message(update, context, "❌ No pending event to confirm")
-        return None
+        return ConversationHandler.END
 
     if response == "y":
         events.append(pending_event)
@@ -145,10 +159,18 @@ async def confirm_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return CONFIRMATION
 
     context.user_data.clear()
-    return None
+    return ConversationHandler.END
+
+async def cancel_conversation(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Cancel the current conversation."""
+    logging.info("Entering cancel_conversation")
+    await send_message(update, context, "❌ Operation canceled")
+    context.user_data.clear()
+    return ConversationHandler.END
 
 async def done_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /done <message> command to mark to-do as completed."""
+    logging.info("Entering done_command")
     if not await validate_group(update, context):
         return
 
@@ -172,6 +194,7 @@ async def done_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def list_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /list command to show active events and to-dos."""
+    logging.info("Entering list_command")
     if not await validate_group(update, context):
         return
 
@@ -188,15 +211,17 @@ async def list_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /help command to show usage instructions."""
+    logging.info("Entering help_command")
     if not await validate_group(update, context):
         return
 
     response = (
-        "📖 @PytstsyToDobot Help\n\n"
+        "📖 @PytstsyTestBot Help\n\n"
         "/todo <message> [YYYY-MM-DD HH:MM|MM-DD HH:MM] - Add an event or to-do\n"
         "/done <message> - Mark a to-do as completed\n"
         "/list - List all active events and to-dos\n"
-        "/help - Show this help message\n\n"
+        "/help - Show this help message\n"
+        "/cancel - Cancel current operation\n\n"
         "Examples:\n"
         "- /todo Pizza night 2025-07-25 19:00\n"
         "- /todo Pizza night 08-25 19:00\n"
@@ -205,16 +230,24 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     await send_message(update, context, response)
 
+async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Log errors caused by updates."""
+    logging.error(f"Update {update} caused error: {context.error}")
+
 def setup_handlers(application: Application):
     """Initialize bot and register command handlers."""
+    logging.info("Setting up command handlers")
     todo_handler = ConversationHandler(
         entry_points=[CommandHandler("todo", todo_command)],
         states={CONFIRMATION: [MessageHandler(filters.TEXT & ~filters.COMMAND, confirm_date)]},
-        fallbacks=[],
-        per_user=True
+        fallbacks=[CommandHandler("cancel", cancel_conversation)],
+        per_user=True,
+        per_chat=True,
+        conversation_timeout=300  # 5 minutes timeout
     )
     application.add_handler(todo_handler)
     application.add_handler(CommandHandler("done", done_command))
     application.add_handler(CommandHandler("list", list_command))
     application.add_handler(CommandHandler("help", help_command))
+    application.add_error_handler(error_handler)
     logging.info("Command handlers registered")

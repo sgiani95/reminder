@@ -7,7 +7,9 @@ import os
 logging.basicConfig(filename='telegram_message.log', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-async def send_test_message(bot_token, chat_id, message="Test message from @PytstsyToDobot! 🍕"):
+#async def send_test_message(bot_token, chat_id, message="Test message from @PytstsyToDobot! 🍕"):
+async def send_test_message(bot_token, chat_id, message="/list"):
+
     try:
         bot = Bot(token=bot_token)
         await bot.send_message(chat_id=chat_id, text=message)
