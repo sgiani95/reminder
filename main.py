@@ -8,18 +8,17 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO,
     handlers=[
-        logging.FileHandler("telegram_message.log"),
-        logging.StreamHandler()
+        logging.FileHandler("telegram_message.log")
     ]
 )
 logger = logging.getLogger(__name__)
 
-async def main():
+def main():
     """Main function to start the bot."""
-    logger.info("Starting test bot")
-    token = os.getenv("TESTBOT_TOKEN")
+    logger.info("Starting bot")
+    token = os.getenv("BOT_TOKEN")
     if not token:
-        logger.error("TESTBOT_TOKEN environment variable not set")
+        logger.error("BOT_TOKEN environment variable not set")
         return
 
     try:
@@ -31,23 +30,14 @@ async def main():
         setup_handlers(application)
         logger.info("Handlers setup completed")
 
-        # Initialize application
-        await application.initialize()
-        logger.info("Application initialized")
-
-        # Start polling
+        # Run application
         logger.info("Starting polling")
-        await application.run_polling(allowed_updates=["message", "callback_query"])
+        application.run_polling(allowed_updates=["message", "callback_query"])
         logger.info("Polling stopped")
-
-        # Shutdown application
-        await application.shutdown()
-        logger.info("Application shutdown completed")
     except Exception as e:
-        logger.error(f"Failed to start test bot: {str(e)}", exc_info=True)
+        logger.error(f"Failed to start bot: {str(e)}", exc_info=True)
         raise
 
 if __name__ == "__main__":
-    logger.info("Test bot script started")
-    import asyncio
-    asyncio.run(main())
+    logger.info("Bot script started")
+    main()

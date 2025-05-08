@@ -1,0 +1,73 @@
+2025-05-08 14:58:10,931 - __main__ - INFO - Starting test bot
+2025-05-08 14:58:11,055 - __main__ - INFO - Test bot application built successfully
+2025-05-08 14:58:11,056 - __main__ - INFO - Test bot handlers setup completed
+2025-05-08 14:58:11,236 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7887893595:AAHlDu5syM37L89vFSZaSWp-4osL5UnLzxw/getMe "HTTP/1.1 200 OK"
+2025-05-08 14:58:11,239 - __main__ - INFO - Test bot application initialized
+2025-05-08 14:58:11,462 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7887893595:AAHlDu5syM37L89vFSZaSWp-4osL5UnLzxw/getMe "HTTP/1.1 200 OK"
+2025-05-08 14:58:11,465 - __main__ - INFO - Bot token validated successfully. Bot username: @PytstsyTestBot
+2025-05-08 14:58:11,466 - __main__ - INFO - Starting tests. Check MammamiaPizzeria chat and test_bot.log for bot responses.
+2025-05-08 14:58:11,469 - __main__ - ERROR - Test suite failed: Cannot close a running event loop
+2025-05-08 16:35:32,247 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7887893595:AAHlDu5syM37L89vFSZaSWp-4osL5UnLzxw/getMe "HTTP/1.1 200 OK"
+2025-05-08 16:35:32,250 - __main__ - INFO - Bot token validated successfully. Bot username: @PytstsyTestBot
+2025-05-08 16:35:32,285 - __main__ - INFO - Detected running bot instance (main.py). Ensure it is processing updates.
+To stop it (optional):
+  pkill -f 'python3 /home/sgiani/repos/reminder/main.py'
+To restart it:
+  /bin/python3 /home/sgiani/repos/reminder/main.py
+2025-05-08 16:35:32,285 - __main__ - INFO - Starting tests. Check MammamiaPizzeria chat and telegram_message.log for bot responses.
+2025-05-08 16:35:32,286 - __main__ - INFO - Running test: Should list events or show 'No active events'
+2025-05-08 16:35:32,286 - __main__ - INFO - Sending command: /list
+2025-05-08 16:35:32,367 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7887893595:AAHlDu5syM37L89vFSZaSWp-4osL5UnLzxw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 16:35:32,370 - __main__ - INFO - Command sent successfully: /list (Message ID: 312)
+2025-05-08 16:35:32,370 - __main__ - INFO - Test result: Command sent successfully
+2025-05-08 16:35:32,371 - __main__ - INFO - Verify response in MammamiaPizzeria chat and ~/repos/reminder/telegram_message.log
+
+2025-05-08 16:35:34,371 - __main__ - INFO - Running test: Should add to-do: Fix bike
+2025-05-08 16:35:34,372 - __main__ - INFO - Sending command: /todo Fix bike
+2025-05-08 16:35:34,427 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7887893595:AAHlDu5syM37L89vFSZaSWp-4osL5UnLzxw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 16:35:34,429 - __main__ - INFO - Command sent successfully: /todo Fix bike (Message ID: 313)
+2025-05-08 16:35:34,430 - __main__ - INFO - Test result: Command sent successfully
+2025-05-08 16:35:34,430 - __main__ - INFO - Verify response in MammamiaPizzeria chat and ~/repos/reminder/telegram_message.log
+
+2025-05-08 16:35:36,432 - __main__ - INFO - Running test: Should mark Fix bike as completed
+2025-05-08 16:35:36,433 - __main__ - INFO - Sending command: /done Fix bike
+2025-05-08 16:35:36,486 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7887893595:AAHlDu5syM37L89vFSZaSWp-4osL5UnLzxw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 16:35:36,489 - __main__ - INFO - Command sent successfully: /done Fix bike (Message ID: 314)
+2025-05-08 16:35:36,489 - __main__ - INFO - Test result: Command sent successfully
+2025-05-08 16:35:36,489 - __main__ - INFO - Verify response in MammamiaPizzeria chat and ~/repos/reminder/telegram_message.log
+
+2025-05-08 16:35:38,491 - __main__ - INFO - Running test: Should ask for confirmation
+2025-05-08 16:35:38,491 - __main__ - INFO - Sending command: /todo Pizza 01-25 19:00
+2025-05-08 16:35:38,566 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7887893595:AAHlDu5syM37L89vFSZaSWp-4osL5UnLzxw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 16:35:38,568 - __main__ - INFO - Command sent successfully: /todo Pizza 01-25 19:00 (Message ID: 315)
+2025-05-08 16:35:38,568 - __main__ - INFO - Test result: Command sent successfully
+2025-05-08 16:35:38,569 - __main__ - INFO - Verify response in MammamiaPizzeria chat and ~/repos/reminder/telegram_message.log
+
+2025-05-08 16:35:40,569 - __main__ - INFO - Running test: Should confirm Pizza event
+2025-05-08 16:35:40,570 - __main__ - INFO - Sending command: y
+2025-05-08 16:35:40,667 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7887893595:AAHlDu5syM37L89vFSZaSWp-4osL5UnLzxw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 16:35:40,669 - __main__ - INFO - Command sent successfully: y (Message ID: 316)
+2025-05-08 16:35:40,670 - __main__ - INFO - Test result: Command sent successfully
+2025-05-08 16:35:40,670 - __main__ - INFO - Verify response in MammamiaPizzeria chat and ~/repos/reminder/telegram_message.log
+
+2025-05-08 16:35:42,672 - __main__ - INFO - Running test: Should add event directly
+2025-05-08 16:35:42,673 - __main__ - INFO - Sending command: /todo Pizza night 2025-07-25 19:00
+2025-05-08 16:35:42,727 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7887893595:AAHlDu5syM37L89vFSZaSWp-4osL5UnLzxw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 16:35:42,730 - __main__ - INFO - Command sent successfully: /todo Pizza night 2025-07-25 19:00 (Message ID: 317)
+2025-05-08 16:35:42,730 - __main__ - INFO - Test result: Command sent successfully
+2025-05-08 16:35:42,730 - __main__ - INFO - Verify response in MammamiaPizzeria chat and ~/repos/reminder/telegram_message.log
+
+2025-05-08 16:35:44,733 - __main__ - INFO - Running test: Should show help message
+2025-05-08 16:35:44,734 - __main__ - INFO - Sending command: /help
+2025-05-08 16:35:44,796 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7887893595:AAHlDu5syM37L89vFSZaSWp-4osL5UnLzxw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 16:35:44,798 - __main__ - INFO - Command sent successfully: /help (Message ID: 318)
+2025-05-08 16:35:44,799 - __main__ - INFO - Test result: Command sent successfully
+2025-05-08 16:35:44,799 - __main__ - INFO - Verify response in MammamiaPizzeria chat and ~/repos/reminder/telegram_message.log
+
+2025-05-08 16:35:46,801 - __main__ - INFO - Running test: Should cancel any pending operation
+2025-05-08 16:35:46,802 - __main__ - INFO - Sending command: /cancel
+2025-05-08 16:35:46,879 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7887893595:AAHlDu5syM37L89vFSZaSWp-4osL5UnLzxw/sendMessage "HTTP/1.1 200 OK"
+2025-05-08 16:35:46,881 - __main__ - INFO - Command sent successfully: /cancel (Message ID: 319)
+2025-05-08 16:35:46,881 - __main__ - INFO - Test result: Command sent successfully
+2025-05-08 16:35:46,882 - __main__ - INFO - Verify response in MammamiaPizzeria chat and ~/repos/reminder/telegram_message.log
+
