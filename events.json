@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "message": "Fix bike",
+        "time": "todo",
+        "type": "todo",
+        "active": true,
+        "chat_id": "-1001234567890"
+    },
+    {
+        "id": 2,
+        "message": "Pizza123",
+        "time": "25.12.2025",
+        "type": "terminated",
+        "active": true,
+        "chat_id": "-1001234567890"
+    },
+    {
+        "id": 3,
+        "message": "Samuele",
+        "time": "16.05.2026 10:15",
+        "type": "terminated",
+        "active": true,
+        "chat_id": "-1001234567890"
+    },
+    {
+        "id": 4,
+        "message": "Buy milk",
+        "time": "todo",
+        "type": "todo",
+        "active": true,
+        "chat_id": "-1001234567890"
+    },
+    {
+        "id": 5,
+        "message": "Meeting",
+        "time": "20.07.2025 14:00",
+        "type": "terminated",
+        "active": true,
+        "chat_id": "-1001234567890"
+    },
+    {
+        "id": 6,
+        "message": "Mamma",
+        "time": "todo",
+        "type": "todo",
+        "active": true,
+        "chat_id": "-1002593119445"
+    }
+]

@@ -4,21 +4,35 @@ import re
 def parse_datetime(time_input):
     """Parse and validate datetime input, returning (datetime, formatted_time, is_inferred)."""
     try:
-        # Handle MM-DD HH:MM format (infer year)
-        if re.match(r"^\d{1,2}-\d{1,2} \d{2}:\d{2}$", time_input):
+        # Handle DD.MM HH:MM format (infer year)
+        if re.match(r"^\d{2}\.\d{2} \d{2}:\d{2}$", time_input):
             current_year = datetime.now().year
-            assumed_time = f"{current_year}-{time_input}"
+            assumed_time = f"{time_input}.{current_year}"
             try:
-                dt = datetime.strptime(assumed_time, "%Y-%m-%d %H:%M")
+                dt = datetime.strptime(assumed_time, "%d.%m.%Y %H:%M")
+                if dt.day > 31 or dt.month > 12 or dt.hour > 23 or dt.minute > 59:
+                    return None, None, False
             except ValueError:
                 # Try next year if date has passed
-                dt = datetime.strptime(f"{current_year + 1}-{time_input}", "%Y-%m-%d %H:%M")
-            formatted_time = dt.strftime("%Y-%m-%d %H:%M")
+                dt = datetime.strptime(f"{time_input}.{current_year + 1}", "%d.%m.%Y %H:%M")
+                if dt.day > 31 or dt.month > 12 or dt.hour > 23 or dt.minute > 59:
+                    return None, None, False
+            formatted_time = dt.strftime("%d.%m.%Y %H:%M")
             return dt, formatted_time, True
-        # Handle YYYY-MM-DD HH:MM format
-        elif re.match(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$", time_input):
-            dt = datetime.strptime(time_input, "%Y-%m-%d %H:%M")
-            return dt, time_input, False
+        # Handle DD.MM.YYYY HH:MM format
+        elif re.match(r"^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$", time_input):
+            dt = datetime.strptime(time_input, "%d.%m.%Y %H:%M")
+            if dt.day > 31 or dt.month > 12 or dt.hour > 23 or dt.minute > 59:
+                return None, None, False
+            formatted_time = dt.strftime("%d.%m.%Y %H:%M")
+            return dt, formatted_time, False
+        # Handle DD.MM.YYYY format (date only, assume 00:00)
+        elif re.match(r"^\d{2}\.\d{2}\.\d{4}$", time_input):
+            dt = datetime.strptime(f"{time_input} 00:00", "%d.%m.%Y %H:%M")
+            if dt.day > 31 or dt.month > 12:
+                return None, None, False
+            formatted_time = dt.strftime("%d.%m.%Y")
+            return dt, formatted_time, False
         else:
             return None, None, False
     except ValueError:
