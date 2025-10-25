@@ -7,6 +7,11 @@ from telegram.ext import Application
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
+# Suppress noisy polling logs from httpx and telegram.ext
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("telegram.ext.Application").setLevel(logging.WARNING)
+logging.getLogger("apscheduler").setLevel(logging.WARNING)  # Optional: Quiets scheduler spam too
+
 from telegram_interface import setup_handlers
 
 def main() -> NoReturn:

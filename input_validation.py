@@ -21,10 +21,10 @@ def parse_datetime(time_input: str) -> Tuple[Optional[datetime], str, bool]:
     - DD.MM HH:MM (infer year, prefer future)
     - DD.MM.YYYY (date only, assume 00:00)
     
-    Examples:
+    Examples (on Oct 25, 2025):
     - "25.10.2025 18:00" → datetime(2025,10,25,18,0), "25.10.2025 18:00", False
-    - "26.10 18:00" (Oct 25, 2025) → datetime(2025,10,26,18,0), "26.10.2025 18:00", True
-    - "01.10 18:00" (Oct 25, 2025) → datetime(2026,10,1,18,0), "01.10.2026 18:00", True
+    - "26.10 18:00" → datetime(2025,10,26,18,0), "26.10.2025 18:00", True
+    - "01.10 18:00" → datetime(2026,10,1,18,0), "01.10.2026 18:00", True (since 2025-10-01 is past)
     - "25.12.2025" → datetime(2025,12,25,0,0), "25.12.2025", False
     """
     time_input = time_input.strip()
@@ -36,8 +36,13 @@ def parse_datetime(time_input: str) -> Tuple[Optional[datetime], str, bool]:
 
     try:
         if re.match(DATE_TIME_INFER, time_input):
+            # Split into date_part (DD.MM) and time_part (HH:MM)
+            parts = time_input.split()
+            if len(parts) != 2:
+                return None, "", False
+            date_part, time_part = parts
             # Infer year: try current, fall back to next if past
-            candidate = f"{time_input}.{now.year}"
+            candidate = f"{date_part}.{now.year} {time_part}"
             dt = datetime.strptime(candidate, "%d.%m.%Y %H:%M")
             if dt.date() < now.date():  # If date is past, bump year
                 dt = dt.replace(year=dt.year + 1)

@@ -1,7 +1,7 @@
 from typing import Optional
 import logging
 import re
-from datetime import time
+from datetime import datetime, time, timedelta  # Added 'datetime' here
 from telegram import Update
 from telegram.ext import (
     ContextTypes,
@@ -145,25 +145,85 @@ async def done_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         await send_message(update, context, f"❌ No active to-do found: {message}")
 
 async def list_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle /list command."""
+    """Handle /list command with categorized output."""
     if not await validate_group(update, context):
         return
 
-    show_upcoming = context.args and context.args[0].lower() == "upcoming"
+    show_upcoming_only = context.args and context.args[0].lower() == "upcoming"
 
-    filtered_events = EVENT_MANAGER.get_active_events(show_upcoming=show_upcoming)
-    if not filtered_events:
-        msg = "ℹ️ No active events or to-dos." if not show_upcoming else "ℹ️ No upcoming events within 24 hours."
-        await send_message(update, context, msg)
+    current_time = datetime.now()
+    threshold = current_time + timedelta(hours=24)
+
+    # Get all active items
+    all_active = [e for e in EVENT_MANAGER._events if e.get("active")]
+    todos = [e for e in all_active if e["type"] == "todo"]
+    all_terminated = [e for e in all_active if e["type"] == "terminated"]
+
+    # Sort todos by ID
+    todos.sort(key=lambda e: e["id"])
+
+    # Sort all terminated by datetime
+    def get_event_dt(event):
+        dt, _, _ = parse_datetime(event["time"])
+        return dt if dt else datetime.max
+    all_terminated.sort(key=get_event_dt)
+
+    if show_upcoming_only:
+        # Legacy: To-dos + upcoming events only
+        upcoming_events = [e for e in all_terminated if current_time <= get_event_dt(e) <= threshold]
+        filtered_events = todos + upcoming_events
+        if not filtered_events:
+            await send_message(update, context, "ℹ️ No upcoming events within 24 hours.")
+            return
+        header = "🔔 Upcoming Events and To-Dos (next 24 hours):\n"
+        response = header
+        for event in filtered_events:
+            event_type = "To-Do" if event["type"] == "todo" else "Event"
+            response += f"- {event_type}: {event['message']} ({event['time']})\n"
+        await send_message(update, context, response)
         return
 
-    header = "📋 Active Events and To-Dos:\n" if not show_upcoming else "🔔 Upcoming Events (next 24 hours):\n"
-    response = header
-    for event in filtered_events:
-        event_type = "To-Do" if event["type"] == "todo" else "Event"
-        response += f"- {event_type}: {event['message']} ({event['time']})\n"
-    
-    await send_message(update, context, response)
+    # Default: Categorized view
+    upcoming_events = [e for e in all_terminated if current_time <= get_event_dt(e) <= threshold]
+    future_events = [e for e in all_terminated if get_event_dt(e) > threshold]
+
+    # Build response sections
+    response_parts = []
+
+    # To-Dos section
+    if todos:
+        response_parts.append("📝 **To-Dos:**")
+        for todo in todos:
+            response_parts.append(f"\n- {todo['message']}")
+    else:
+        response_parts.append("📝 **To-Dos:** None")
+
+    response_parts.append("\n- - - - - - - - - - - - - - - -")
+
+    # Upcoming Events section
+    if upcoming_events:
+        response_parts.append("\n🔔 **Upcoming Events (next 24 hours):**")
+        for event in upcoming_events:
+            response_parts.append(f"\n- {event['message']} ({event['time']})")
+    else:
+        response_parts.append("\n🔔 **Upcoming Events (next 24 hours):** None")
+
+    response_parts.append("\n- - - - - - - - - - - - - - - -")
+
+    # Future Events section
+    if future_events:
+        response_parts.append("\n📅 **Future Events:**")
+        for event in future_events:
+            response_parts.append(f"\n- {event['message']} ({event['time']})")
+    else:
+        response_parts.append("\n📅 **Future Events:** None")
+
+    # Combine and send (strip trailing newline)
+    full_response = "".join(response_parts).strip()
+    if not any([todos, upcoming_events, future_events]):
+        full_response = "ℹ️ No active events or to-dos."
+
+    await send_message(update, context, full_response)
 
 async def send_reminders(context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send daily reminders for upcoming events."""

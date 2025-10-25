@@ -1,7 +1,15 @@
 [
     {
+        "id": 1,
+        "message": "Stella geburri",
+        "time": "todo",
+        "type": "todo",
+        "active": true,
+        "chat_id": "-1002593119445"
+    },
+    {
         "id": 2,
-        "message": "Stella Geburri",
+        "message": "Test to-do",
         "time": "todo",
         "type": "todo",
         "active": true,
@@ -9,7 +17,7 @@
     },
     {
         "id": 3,
-        "message": "Buy more cheese",
+        "message": "Test to-dof",
         "time": "todo",
         "type": "todo",
         "active": true,
@@ -17,16 +25,32 @@
     },
     {
         "id": 4,
-        "message": "Pizza dough prep",
-        "time": "26.10.2025 18:00",
-        "type": "terminated",
+        "message": "TTTest to-dof",
+        "time": "todo",
+        "type": "todo",
         "active": true,
         "chat_id": "-1002593119445"
     },
     {
         "id": 5,
-        "message": "Inventory check",
-        "time": "31.10.2025",
+        "message": "Todo",
+        "time": "todo",
+        "type": "todo",
+        "active": true,
+        "chat_id": "-1002593119445"
+    },
+    {
+        "id": 8,
+        "message": "Pizza night",
+        "time": "25.11.2025",
+        "type": "terminated",
+        "active": true,
+        "chat_id": "-1002593119445"
+    },
+    {
+        "id": 8,
+        "message": "Kino",
+        "time": "26.10.2025",
         "type": "terminated",
         "active": true,
         "chat_id": "-1002593119445"
