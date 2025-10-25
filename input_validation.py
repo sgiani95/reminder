@@ -1,68 +1,130 @@
 from datetime import datetime
+from typing import Optional, Tuple
 import re
 
-def parse_datetime(time_input):
-    """Parse and validate datetime input, returning (datetime, formatted_time, is_inferred)."""
+# Constants for regex patterns
+DATE_TIME_FULL = r"^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$"
+DATE_TIME_INFER = r"^\d{2}\.\d{2} \d{2}:\d{2}$"
+DATE_ONLY = r"^\d{2}\.\d{2}\.\d{4}$"
+
+class ValidationError(Exception):
+    """Custom exception for validation failures."""
+    pass
+
+def parse_datetime(time_input: str) -> Tuple[Optional[datetime], str, bool]:
+    """
+    Parse and validate datetime input in supported formats.
+    Returns (datetime object, formatted string, is_inferred flag).
+    
+    Supported formats:
+    - DD.MM.YYYY HH:MM (full)
+    - DD.MM HH:MM (infer year, prefer future)
+    - DD.MM.YYYY (date only, assume 00:00)
+    
+    Examples:
+    - "25.10.2025 18:00" → datetime(2025,10,25,18,0), "25.10.2025 18:00", False
+    - "26.10 18:00" (Oct 25, 2025) → datetime(2025,10,26,18,0), "26.10.2025 18:00", True
+    - "01.10 18:00" (Oct 25, 2025) → datetime(2026,10,1,18,0), "01.10.2026 18:00", True
+    - "25.12.2025" → datetime(2025,12,25,0,0), "25.12.2025", False
+    """
+    time_input = time_input.strip()
+    if not time_input:
+        return None, "", False
+
+    now = datetime.now()
+    is_inferred = False
+
     try:
-        # Handle DD.MM HH:MM format (infer year)
-        if re.match(r"^\d{2}\.\d{2} \d{2}:\d{2}$", time_input):
-            current_year = datetime.now().year
-            assumed_time = f"{time_input}.{current_year}"
-            try:
-                dt = datetime.strptime(assumed_time, "%d.%m.%Y %H:%M")
-                if dt.day > 31 or dt.month > 12 or dt.hour > 23 or dt.minute > 59:
-                    return None, None, False
-            except ValueError:
-                # Try next year if date has passed
-                dt = datetime.strptime(f"{time_input}.{current_year + 1}", "%d.%m.%Y %H:%M")
-                if dt.day > 31 or dt.month > 12 or dt.hour > 23 or dt.minute > 59:
-                    return None, None, False
+        if re.match(DATE_TIME_INFER, time_input):
+            # Infer year: try current, fall back to next if past
+            candidate = f"{time_input}.{now.year}"
+            dt = datetime.strptime(candidate, "%d.%m.%Y %H:%M")
+            if dt.date() < now.date():  # If date is past, bump year
+                dt = dt.replace(year=dt.year + 1)
+                is_inferred = True
             formatted_time = dt.strftime("%d.%m.%Y %H:%M")
-            return dt, formatted_time, True
-        # Handle DD.MM.YYYY HH:MM format
-        elif re.match(r"^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$", time_input):
+            return dt, formatted_time, is_inferred
+
+        elif re.match(DATE_TIME_FULL, time_input):
             dt = datetime.strptime(time_input, "%d.%m.%Y %H:%M")
-            if dt.day > 31 or dt.month > 12 or dt.hour > 23 or dt.minute > 59:
-                return None, None, False
             formatted_time = dt.strftime("%d.%m.%Y %H:%M")
             return dt, formatted_time, False
-        # Handle DD.MM.YYYY format (date only, assume 00:00)
-        elif re.match(r"^\d{2}\.\d{2}\.\d{4}$", time_input):
+
+        elif re.match(DATE_ONLY, time_input):
             dt = datetime.strptime(f"{time_input} 00:00", "%d.%m.%Y %H:%M")
-            if dt.day > 31 or dt.month > 12:
-                return None, None, False
             formatted_time = dt.strftime("%d.%m.%Y")
             return dt, formatted_time, False
-        else:
-            return None, None, False
-    except ValueError:
-        return None, None, False
 
-def validate_todo(message, events):
-    """Check if a to-do already exists."""
+        else:
+            return None, "", False
+
+    except ValueError:
+        return None, "", False
+
+def validate_todo(message: str, events: list[dict]) -> bool:
+    """
+    Check if a to-do with the given message already exists (case-insensitive).
+    
+    Args:
+        message: The to-do message to check.
+        events: List of event dicts.
+    
+    Returns:
+        True if unique, False if duplicate.
+    """
+    lower_message = message.strip().lower()
     for event in events:
-        if event["message"] == message and event["type"] == "todo" and event["active"]:
+        if (
+            event.get("type") == "todo"
+            and event.get("active")
+            and event.get("message", "").strip().lower() == lower_message
+        ):
             return False
     return True
 
-def check_message_format(message):
-    """Validate message format (not empty, valid characters)."""
-    if not message or message.strip() == "":
-        return False
-    # Add any specific format checks if needed (e.g., max length, allowed chars)
-    return True
+def check_message_format(message: str) -> bool:
+    """
+    Validate message: non-empty after strip, max 4096 chars (Telegram limit).
+    
+    Args:
+        message: The message to validate.
+    
+    Returns:
+        True if valid.
+    """
+    stripped = message.strip()
+    return bool(stripped) and len(stripped) <= 4096
 
-def get_error_message(error_type):
-    """Return formatted error message."""
+def get_error_message(error_type: str) -> str:
+    """
+    Get a formatted error message by type.
+    
+    Args:
+        error_type: Key like "empty", "duplicate_todo", "invalid_time".
+    
+    Returns:
+        Error string, or generic if unknown.
+    """
     errors = {
         "empty": "❌ Empty or invalid message",
-        "duplicate_todo": "❌ Duplicate to-do",
-        "invalid_time": "❌ Invalid date/time format"
+        "duplicate_todo": "❌ Duplicate to-do (case-insensitive)",
+        "invalid_time": "❌ Invalid date/time format. Use DD.MM.YYYY HH:MM, DD.MM HH:MM, or DD.MM.YYYY (two digits for day and month)"
     }
     return errors.get(error_type, "❌ Unknown error")
 
-def validate_event(message, time_input, event_type, events):
-    """Validate an event or to-do before creation."""
+def validate_event(message: str, time_input: str, event_type: str, events: list[dict]) -> Tuple[bool, str]:
+    """
+    Orchestrate validation for an event or to-do.
+    
+    Args:
+        message: Event/to-do message.
+        time_input: Time string (or "todo").
+        event_type: "todo" or "terminated".
+        events: List of existing events.
+    
+    Returns:
+        (is_valid: bool, error_msg: str)
+    """
     if not check_message_format(message):
         return False, get_error_message("empty")
     if event_type == "todo":

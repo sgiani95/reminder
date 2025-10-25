@@ -1,0 +1,409 @@
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple, Any
+import json
+import logging
+import re
+from datetime import datetime, timedelta, time
+from telegram import Update
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    ConversationHandler,
+    MessageHandler,
+    ContextTypes,
+    filters,
+    JobQueue,
+)
+from input_validation import parse_datetime, validate_todo, check_message_format, get_error_message
+
+# Set up logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
+
+# Conversation states
+CONFIRMATION = 0
+
+class EventManager:
+    """Manages event storage, loading, saving, and cleanup."""
+    
+    def __init__(self, events_file: str):
+        self.events_file = Path(events_file)
+        self._events: List[Dict[str, Any]] = []
+        self._lock = None  # Placeholder for threading.Lock() if needed in multi-threaded env
+        self.load_events()
+    
+    def load_events(self) -> List[Dict[str, Any]]:
+        """Load events from JSON and filter expired ones."""
+        if not self.events_file.exists():
+            self._events = []
+            self.save_events()
+            return self._events
+        
+        try:
+            with self.events_file.open("r") as f:
+                loaded_events = json.load(f)
+            self._events = self._cleanup_expired(loaded_events)
+            self.save_events()  # Persist cleanup
+            logger.info(f"Loaded {len(self._events)} events")
+            return self._events
+        except (json.JSONDecodeError, IOError) as e:
+            logger.error(f"Failed to load events: {e}")
+            self._events = []
+            return self._events
+    
+    def _cleanup_expired(self, events: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Filter out expired terminated events."""
+        current_time = datetime.now()
+        return [
+            event for event in events
+            if not (event.get("type") == "terminated" and event.get("active") and
+                    self._parse_event_time(event["time"])[0] and
+                    self._parse_event_time(event["time"])[0] < current_time)
+        ]
+    
+    def _parse_event_time(self, time_str: str) -> Tuple[Optional[datetime], str, bool]:
+        """Helper to parse event time (avoids importing parse_datetime globally)."""
+        return parse_datetime(time_str)
+    
+    def save_events(self) -> bool:
+        """Save events to JSON."""
+        try:
+            with self.events_file.open("w") as f:
+                json.dump(self._events, f, indent=4)
+            return True
+        except IOError as e:
+            logger.error(f"Failed to save events: {e}")
+            return False
+    
+    def add_event(self, event: Dict[str, Any]) -> bool:
+        """Add a new event."""
+        if self._validate_event_for_add(event):
+            self._events.append(event)
+            return self.save_events()
+        return False
+    
+    def _validate_event_for_add(self, event: Dict[str, Any]) -> bool:
+        """Validate before adding (basic checks)."""
+        message = event.get("message", "")
+        time_input = event.get("time", "")
+        event_type = event.get("type", "")
+        
+        if not check_message_format(message):
+            logger.warning(f"Invalid message format: {message}")
+            return False
+        
+        if event_type == "todo":
+            if not validate_todo(message, self._events):
+                logger.warning(f"Duplicate todo: {message}")
+                return False
+        elif event_type == "terminated":
+            dt, _, _ = self._parse_event_time(time_input)
+            if not dt:
+                logger.warning(f"Invalid time for terminated event: {time_input}")
+                return False
+        
+        return True
+    
+    def delete_event_by_message(self, message: str) -> bool:
+        """Delete event by message (case-insensitive)."""
+        lower_message = message.lower()
+        matched = [e for e in self._events if e.get("message", "").lower() == lower_message and e.get("active")]
+        if not matched:
+            return False
+        
+        if len(matched) > 1:
+            logger.warning(f"Multiple matches for deletion '{message}'; deleting first.")
+        
+        self._events.remove(matched[0])
+        return self.save_events()
+    
+    def get_active_events(self, show_upcoming: bool = False) -> List[Dict[str, Any]]:
+        """Get filtered active events; optionally only upcoming in next 24h."""
+        current_time = datetime.now()
+        all_active = [e for e in self._events if e.get("active")]
+        todos = [e for e in all_active if e["type"] == "todo"]
+        terminated = [e for e in all_active if e["type"] == "terminated"]
+        
+        # Sort
+        todos.sort(key=lambda e: e["id"])
+        terminated.sort(key=lambda e: self._parse_event_time(e["time"])[0] or datetime.max)
+        
+        if show_upcoming:
+            threshold = current_time + timedelta(hours=24)
+            terminated = [e for e in terminated if current_time <= self._parse_event_time(e["time"])[0] <= threshold]
+        
+        return todos + terminated
+    
+    def get_upcoming_for_reminders(self) -> List[Dict[str, Any]]:
+        """Get events due in next 24h for reminders."""
+        current_time = datetime.now()
+        threshold = current_time + timedelta(hours=24)
+        return [
+            e for e in self._events
+            if e["type"] == "terminated" and e.get("active") and
+               current_time <= self._parse_event_time(e["time"])[0] <= threshold
+        ]
+
+def load_config(config_file: str = "config.json") -> Dict[str, str]:
+    """Load and validate configuration from JSON."""
+    config_path = Path(config_file)
+    if not config_path.exists():
+        raise ValueError(f"Configuration file {config_file} not found")
+    
+    try:
+        with config_path.open("r") as f:
+            config = json.load(f)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON in {config_file}: {e}")
+    
+    required_fields = {"GROUP_CHAT_ID", "EVENTS_FILE", "LOG_FILE"}
+    missing = required_fields - set(config.keys())
+    if missing:
+        raise ValueError(f"Missing required fields: {missing}")
+    
+    for field in required_fields:
+        if not isinstance(config[field], str) or not config[field]:
+            raise ValueError(f"Invalid {field}: must be a non-empty string")
+    
+    if not config["GROUP_CHAT_ID"].startswith("-100"):
+        raise ValueError("Invalid GROUP_CHAT_ID: must start with '-100'")
+    
+    return config
+
+# Global config and manager (loaded once)
+config = load_config()
+EVENT_MANAGER = EventManager(config["EVENTS_FILE"])
+GROUP_CHAT_ID = config["GROUP_CHAT_ID"]
+
+async def validate_group(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
+    """Ensure commands are from the allowed group."""
+    chat_id = str(update.effective_chat.id) if update.effective_chat else None
+    if chat_id != GROUP_CHAT_ID:
+        if update.effective_message:
+            await update.effective_message.reply_text("🚫 This bot only works in the MammamiaPizzeria group!")
+        logger.warning(f"Unauthorized access attempt from chat {chat_id}")
+        return False
+    return True
+
+async def format_response(message: str, add_credit: bool = True) -> str:
+    """Format response with emojis and optional bot credit."""
+    formatted = f"{message}\n"
+    if add_credit:
+        formatted += "🍕 Powered by @PytstsyToDobot"
+    return formatted
+
+async def send_message(
+    update: Update, context: ContextTypes.DEFAULT_TYPE, message: str, add_credit: bool = True
+) -> None:
+    """Send formatted message to the group."""
+    if not update.effective_message:
+        return
+    try:
+        await update.effective_message.reply_text(await format_response(message, add_credit))
+    except Exception as e:
+        logger.error(f"Failed to send message: {e}")
+
+async def todo_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Optional[int]:
+    """Handle /todo command."""
+    if not await validate_group(update, context):
+        return None
+
+    if not context.args:
+        await send_message(update, context, "❌ Usage: /todo <message> [DD.MM.YYYY HH:MM|DD.MM HH:MM|DD.MM.YYYY] (use two digits for day and month)")
+        return None
+
+    input_text = " ".join(context.args).strip()
+    time_match = re.search(r"(\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}|\d{2}\.\d{2} \d{2}:\d{2}|\d{2}\.\d{2}\.\d{4})$", input_text)
+    
+    if time_match:
+        time_input = time_match.group(1)
+        message = input_text[: time_match.start()].strip()
+        event_type = "terminated"
+    else:
+        message = input_text
+        time_input = "todo"
+        event_type = "todo"
+
+    # Validate
+    if not check_message_format(message):
+        await send_message(update, context, get_error_message("empty"))
+        return None
+    if event_type == "todo" and not validate_todo(message, EVENT_MANAGER._events):  # Direct access for validation
+        await send_message(update, context, get_error_message("duplicate_todo"))
+        return None
+    if event_type == "terminated":
+        dt, _, _ = parse_datetime(time_input)
+        if not dt:
+            await send_message(update, context, get_error_message("invalid_time"))
+            return None
+
+    # Create event
+    event_id = len(EVENT_MANAGER._events) + 1
+    event = {
+        "id": event_id,
+        "message": message,
+        "time": time_input,
+        "type": event_type,
+        "active": True,
+        "chat_id": GROUP_CHAT_ID,
+    }
+
+    if event_type == "terminated":
+        dt, formatted_time, is_inferred = parse_datetime(time_input)
+        event["time"] = formatted_time
+        if is_inferred:
+            # Pending confirmation
+            context.user_data["pending_event"] = event
+            await send_message(update, context, f"Interpreted as {formatted_time} [Y/n]")
+            return CONFIRMATION
+
+    # Add directly
+    if EVENT_MANAGER.add_event(event):
+        await send_message(update, context, f"✅ Added {event_type}: {message} ({event['time']})")
+    else:
+        await send_message(update, context, "❌ Failed to add event")
+    return None
+
+async def confirm_date(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Handle date confirmation/correction."""
+    if not await validate_group(update, context):
+        return ConversationHandler.END
+
+    if not update.effective_message:
+        return ConversationHandler.END
+
+    response = update.effective_message.text.lower().strip()
+    pending_event = context.user_data.get("pending_event")
+
+    if not pending_event:
+        await send_message(update, context, "❌ No pending event to confirm")
+        return ConversationHandler.END
+
+    if response == "y":
+        if EVENT_MANAGER.add_event(pending_event):
+            await send_message(update, context, f"✅ Added {pending_event['type']}: {pending_event['message']} ({pending_event['time']})")
+        else:
+            await send_message(update, context, "❌ Failed to add event")
+    elif response == "n":
+        await send_message(update, context, "❌ Event canceled")
+    else:
+        # Try as correction
+        dt, formatted_time, _ = parse_datetime(response)
+        if dt:
+            pending_event["time"] = formatted_time
+            if EVENT_MANAGER.add_event(pending_event):
+                await send_message(update, context, f"✅ Added {pending_event['type']}: {pending_event['message']} ({formatted_time})")
+            else:
+                await send_message(update, context, "❌ Failed to add corrected event")
+        else:
+            await send_message(update, context, "❌ Invalid correction. Use DD.MM.YYYY HH:MM, DD.MM HH:MM, or DD.MM.YYYY (two digits for day and month)")
+            return CONFIRMATION
+
+    context.user_data.clear()
+    return ConversationHandler.END
+
+async def cancel_conversation(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Cancel conversation."""
+    await send_message(update, context, "❌ Operation canceled")
+    context.user_data.clear()
+    return ConversationHandler.END
+
+async def done_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle /done command."""
+    if not await validate_group(update, context):
+        return
+
+    if not context.args:
+        await send_message(update, context, "❌ Usage: /done <message>")
+        return
+
+    message = " ".join(context.args).strip()
+    if EVENT_MANAGER.delete_event_by_message(message):
+        await send_message(update, context, f"✅ To-do completed and removed: {message}")
+    else:
+        await send_message(update, context, f"❌ No active to-do found: {message}")
+
+async def list_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle /list command."""
+    if not await validate_group(update, context):
+        return
+
+    show_upcoming = context.args and context.args[0].lower() == "upcoming"
+
+    filtered_events = EVENT_MANAGER.get_active_events(show_upcoming=show_upcoming)
+    if not filtered_events:
+        msg = "ℹ️ No active events or to-dos." if not show_upcoming else "ℹ️ No upcoming events within 24 hours."
+        await send_message(update, context, msg)
+        return
+
+    header = "📋 Active Events and To-Dos:\n" if not show_upcoming else "🔔 Upcoming Events (next 24 hours):\n"
+    response = header
+    for event in filtered_events:
+        event_type = "To-Do" if event["type"] == "todo" else "Event"
+        response += f"- {event_type}: {event['message']} ({event['time']})\n"
+    
+    await send_message(update, context, response)
+
+async def send_reminders(context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Send daily reminders for upcoming events."""
+    upcoming = EVENT_MANAGER.get_upcoming_for_reminders()
+    if not upcoming:
+        return
+
+    for event in upcoming:
+        reminder_msg = f"🔔 Reminder: {event['message']} is scheduled for {event['time']}!"
+        try:
+            await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=reminder_msg)
+            logger.info(f"Sent reminder for: {event['message']}")
+        except Exception as e:
+            logger.error(f"Failed to send reminder for {event['message']}: {e}")
+
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle /help command."""
+    if not await validate_group(update, context):
+        return
+
+    response = (
+        "📖 @PytstsyToDobot Help\n\n"
+        "/todo <message> [DD.MM.YYYY HH:MM|DD.MM HH:MM|DD.MM.YYYY] - Add an event or to-do (use two digits for day and month)\n"
+        "/done <message> - Mark a to-do as completed and remove it\n"
+        "/list [upcoming|all] - List all active events and to-dos, or only upcoming events (next 24 hours)\n"
+        "/help - Show this help message\n"
+        "/cancel - Cancel current operation\n\n"
+        "Examples:\n"
+        "- /todo Pizza night 25.07.2025 19:00\n"
+        "- /todo Pizza night 25.07 19:00\n"
+        "- /todo Pizza123 25.12.2025\n"
+        "- /todo Fix bike\n"
+        "- /done Fix bike\n"
+        "- /list\n"
+        "- /list upcoming\n"
+        "- /list all"
+    )
+    await send_message(update, context, response, add_credit=False)  # No credit in help for brevity
+
+async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Global error handler."""
+    logger.error(f"Update {update} caused error: {context.error}")
+
+def setup_handlers(application: Application) -> None:
+    """Set up bot handlers and job queue."""
+    todo_handler = ConversationHandler(
+        entry_points=[CommandHandler("todo", todo_command)],
+        states={CONFIRMATION: [MessageHandler(filters.TEXT & ~filters.COMMAND, confirm_date)]},
+        fallbacks=[CommandHandler("cancel", cancel_conversation)],
+        per_user=True,
+        per_chat=True,
+        conversation_timeout=300,  # 5 minutes
+    )
+    
+    application.add_handler(todo_handler)
+    application.add_handler(CommandHandler("done", done_command))
+    application.add_handler(CommandHandler("list", list_command))
+    application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("cancel", cancel_conversation))
+    application.add_error_handler(error_handler)
+    
+    # Daily reminders at 8 AM (configurable in future?)
+    application.job_queue.run_daily(send_reminders, time=time(hour=8, minute=0), name="daily_reminders")
+    logger.info("Handlers and job queue set up")

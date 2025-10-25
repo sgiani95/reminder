@@ -1,49 +1,33 @@
 [
     {
-        "id": 1,
-        "message": "Fix bike",
+        "id": 2,
+        "message": "Stella Geburri",
         "time": "todo",
         "type": "todo",
         "active": true,
-        "chat_id": "-1001234567890"
-    },
-    {
-        "id": 2,
-        "message": "Pizza123",
-        "time": "25.12.2025",
-        "type": "terminated",
-        "active": true,
-        "chat_id": "-1001234567890"
+        "chat_id": "-1002593119445"
     },
     {
         "id": 3,
-        "message": "Samuele",
-        "time": "16.05.2026 10:15",
-        "type": "terminated",
+        "message": "Buy more cheese",
+        "time": "todo",
+        "type": "todo",
         "active": true,
-        "chat_id": "-1001234567890"
+        "chat_id": "-1002593119445"
     },
     {
         "id": 4,
-        "message": "Buy milk",
-        "time": "todo",
-        "type": "todo",
+        "message": "Pizza dough prep",
+        "time": "26.10.2025 18:00",
+        "type": "terminated",
         "active": true,
-        "chat_id": "-1001234567890"
+        "chat_id": "-1002593119445"
     },
     {
         "id": 5,
-        "message": "Meeting",
-        "time": "20.07.2025 14:00",
+        "message": "Inventory check",
+        "time": "31.10.2025",
         "type": "terminated",
-        "active": true,
-        "chat_id": "-1001234567890"
-    },
-    {
-        "id": 6,
-        "message": "Mamma",
-        "time": "todo",
-        "type": "todo",
         "active": true,
         "chat_id": "-1002593119445"
     }
