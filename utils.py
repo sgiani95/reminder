@@ -20,7 +20,7 @@ async def format_response(message: str, add_credit: bool = True) -> str:
     """Format response with emojis and optional bot credit."""
     formatted = f"{message}\n"
     if add_credit:
-        formatted += "🍕 Powered by @PytstsyToDobot"
+        formatted += "\n🍕 Powered by @PytstsyToDobot"
     return formatted
 
 async def send_message(
