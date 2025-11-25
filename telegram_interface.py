@@ -47,5 +47,5 @@ def setup_handlers(application: Application) -> None:
     application.add_error_handler(error_handler)
     
     # Daily reminders at 8 AM
-    application.job_queue.run_daily(send_reminders, time=time(hour=8, minute=0), name="daily_reminders")
+    application.job_queue.run_daily(send_reminders, time=time(hour=9, minute=0), name="daily_reminders")
     logger.info("Handlers and job queue set up")
