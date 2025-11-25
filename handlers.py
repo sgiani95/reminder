@@ -15,6 +15,8 @@ from input_validation import parse_datetime, get_error_message, check_message_fo
 from utils import validate_group, send_message
 from event_manager import EventManager
 from config import GROUP_CHAT_ID, config
+import requests  # Add to top imports if missing (pre-installed on Pi)
+import random  # For picking a fact
 
 # Global manager instance
 EVENT_MANAGER = EventManager(config["EVENTS_FILE"])
@@ -226,18 +228,60 @@ async def list_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     await send_message(update, context, full_response)
 
 async def send_reminders(context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Send daily reminders for upcoming events."""
+    """Send daily reminders for upcoming events—or a fun 'On this day' fact if none."""
     upcoming = EVENT_MANAGER.get_upcoming_for_reminders()
-    if not upcoming:
-        return
-
-    for event in upcoming:
-        reminder_msg = f"🔔 Reminder: {event['message']} is scheduled for {event['time']}!"
+    
+    if upcoming:
+        # Existing: Send reminders
+        for event in upcoming:
+            reminder_msg = f"🔔 Reminder: {event['message']} is scheduled for {event['time']}!"
+            try:
+                await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=reminder_msg)
+                logger.info(f"Sent reminder for: {event['message']}")
+            except Exception as e:
+                logger.error(f"Failed to send reminder for {event['message']}: {e}")
+    else:
+        # New: Fetch and send a random 'On this day' fun fact (Italian)
+        today = datetime.now()
+        month = today.month
+        day = today.day
+        api_url = f"https://api.wikimedia.org/feed/v1/wikipedia/it/onthisday/selected/{month}/{day}"
+        
         try:
-            await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=reminder_msg)
-            logger.info(f"Sent reminder for: {event['message']}")
+            response = requests.get(api_url, timeout=10)  # 10s timeout for Pi
+            if response.status_code == 200:
+                data = response.json()
+                selected_facts = data.get('selected', [])
+                if selected_facts:
+                    # Pick a random fact
+                    fact = random.choice(selected_facts)
+                    fact_text = fact.get('text', '').strip()
+                    # Truncate if too long (Telegram limit)
+                    if len(fact_text) > 400:
+                        fact_text = fact_text[:400] + "..."
+                    
+                    year = fact.get('year', '')
+                    year_str = f" ({year})" if year else ""
+                    
+                    placeholder_msg = (
+                        f"Guten Morgen! Keine Events heute: ein Fun Fact aus der Geschichte{year_str}:\n\n"
+                        f"{fact_text}\n\n"
+                    )
+                else:
+                    placeholder_msg = "Guten Morgen! Keine Events und keine historischen Highlights heute: macht eure eigenen Abenteuer! 🍕"
+            else:
+                raise ValueError(f"API error: {response.status_code}")
         except Exception as e:
-            logger.error(f"Failed to send reminder for {event['message']}: {e}")
+            # Fallback for offline/errors
+            fallback_fact = "Wusstet ihr? Die erste Pizza Margherita wurde 1889 in Neapel erfunden – genau wie unser Bot, nur mit mehr Käse! 🍕"
+            placeholder_msg = f"Guten Morgen! Keine Events heute—hier ein kleiner Fun Fact:\n\n{fallback_fact}"
+            logger.warning(f"Fun fact API failed: {e}, using fallback")
+        
+        try:
+            await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=placeholder_msg)
+            logger.info("Sent daily fun fact (no events)")
+        except Exception as e:
+            logger.error(f"Failed to send daily fun fact: {e}")
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Handle /help command."""
