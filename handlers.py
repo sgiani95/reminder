@@ -227,6 +227,14 @@ async def list_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     await send_message(update, context, full_response)
 
+FALLBACK_FACTS = [
+    "Wusstet ihr? Die erste Pizza Margherita wurde 1889 in Neapel erfunden – genau wie unser Bot, nur mit mehr Käse! 🍕",
+    "Fun Fact: 'Pizza' kommt vom Lateinischen 'pinsa' (flach drücken). Passt perfekt zu unserem Teig! 🥳",
+    "Historisch: Am 28. November 1582 führte Papst Gregor XIII. den gregorianischen Kalender ein – Zeit für Termine! 📅",
+    "Italien-Tipp: 'Buon appetito!' heißt 'Guten Appetit' – probiert es beim nächsten Bissen.",
+    "Pizza-Legende: Die Tomate kam 1540 aus Amerika nach Italien – danke, Entdecker, für unsere Sauce!"
+]
+
 async def send_reminders(context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send daily reminders for upcoming events—or a fun 'On this day' fact if none."""
     upcoming = EVENT_MANAGER.get_upcoming_for_reminders()
@@ -241,41 +249,60 @@ async def send_reminders(context: ContextTypes.DEFAULT_TYPE) -> None:
             except Exception as e:
                 logger.error(f"Failed to send reminder for {event['message']}: {e}")
     else:
-        # New: Fetch and send a random 'On this day' fun fact (Italian)
+        # Fun fact with retry
         today = datetime.now()
         month = today.month
         day = today.day
         api_url = f"https://api.wikimedia.org/feed/v1/wikipedia/it/onthisday/selected/{month}/{day}"
         
-        try:
-            response = requests.get(api_url, timeout=10)  # 10s timeout for Pi
-            if response.status_code == 200:
-                data = response.json()
-                selected_facts = data.get('selected', [])
-                if selected_facts:
-                    # Pick a random fact
-                    fact = random.choice(selected_facts)
-                    fact_text = fact.get('text', '').strip()
-                    # Truncate if too long (Telegram limit)
-                    if len(fact_text) > 400:
-                        fact_text = fact_text[:400] + "..."
-                    
-                    year = fact.get('year', '')
-                    year_str = f" ({year})" if year else ""
-                    
-                    placeholder_msg = (
-                        f"Guten Morgen! Keine Events heute: ein Fun Fact aus der Geschichte{year_str}:\n\n"
-                        f"{fact_text}\n\n"
-                    )
+        fact_text = None
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                logger.info(f"Fetching fact attempt {attempt + 1}/{max_retries} from {api_url}")
+                response = requests.get(api_url, timeout=10)
+                if response.status_code == 200:
+                    data = response.json()
+                    selected_facts = data.get('selected', [])
+                    if selected_facts:
+                        fact = random.choice(selected_facts)
+                        fact_text = fact.get('text', '').strip()
+                        year = fact.get('year', '')
+                        year_str = f" ({year})" if year else ""
+                        
+                        # Truncate if long
+                        if len(fact_text) > 400:
+                            fact_text = fact_text[:400] + "..."
+                        
+                        logger.info(f"Fact fetched successfully: {fact_text[:50]}...")
+                        break  # Success—exit retry
+                    else:
+                        raise ValueError("No selected facts in response")
                 else:
-                    placeholder_msg = "Guten Morgen! Keine Events und keine historischen Highlights heute: macht eure eigenen Abenteuer! 🍕"
-            else:
-                raise ValueError(f"API error: {response.status_code}")
-        except Exception as e:
-            # Fallback for offline/errors
-            fallback_fact = "Wusstet ihr? Die erste Pizza Margherita wurde 1889 in Neapel erfunden – genau wie unser Bot, nur mit mehr Käse! 🍕"
-            placeholder_msg = f"Guten Morgen! Keine Events heute—hier ein kleiner Fun Fact:\n\n{fallback_fact}"
-            logger.warning(f"Fun fact API failed: {e}, using fallback")
+                    logger.warning(f"API status {response.status_code}: {response.text[:100]}...")
+                    if attempt < max_retries - 1:
+                        time.sleep(2 ** attempt)  # Backoff: 1s, 2s, 4s
+            except Exception as e:
+                logger.warning(f"Fact fetch attempt {attempt + 1} failed: {str(e)}")
+                if attempt < max_retries - 1:
+                    time.sleep(2 ** attempt)
+                else:
+                    logger.error(f"All retries failed for {api_url}")
+        
+        if fact_text:
+            placeholder_msg = (
+                f"Guten Morgen! Keine Events heute—ein Fun Fact aus der Geschichte{year_str}:\n\n"
+                f"{fact_text}\n\n"
+            )
+        else:
+            # Fallback: Random static fact
+            fallback = random.choice(FALLBACK_FACTS)
+            placeholder_msg = (
+                f"Guten Morgen! Keine Events heute—hier ein kleiner Fun Fact als Plan B:\n\n"
+                f"{fallback}\n\n"
+                f"🍕 Zeit für Kreativität in der Küche!"
+            )
+            logger.info("Using fallback fact due to API failure")
         
         try:
             await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=placeholder_msg)
