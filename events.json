@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "message": "Stella geburri",
+        "message": "Test To-Do",
         "time": "todo",
         "type": "todo",
         "active": true,
@@ -9,48 +9,8 @@
     },
     {
         "id": 2,
-        "message": "Test to-do",
-        "time": "todo",
-        "type": "todo",
-        "active": true,
-        "chat_id": "-1002593119445"
-    },
-    {
-        "id": 3,
-        "message": "Test to-dof",
-        "time": "todo",
-        "type": "todo",
-        "active": true,
-        "chat_id": "-1002593119445"
-    },
-    {
-        "id": 4,
-        "message": "TTTest to-dof",
-        "time": "todo",
-        "type": "todo",
-        "active": true,
-        "chat_id": "-1002593119445"
-    },
-    {
-        "id": 5,
-        "message": "Todo",
-        "time": "todo",
-        "type": "todo",
-        "active": true,
-        "chat_id": "-1002593119445"
-    },
-    {
-        "id": 8,
-        "message": "Pizza night",
-        "time": "25.11.2025",
-        "type": "terminated",
-        "active": true,
-        "chat_id": "-1002593119445"
-    },
-    {
-        "id": 8,
-        "message": "Kino",
-        "time": "26.10.2025",
+        "message": "Test Event",
+        "time": "15.01.2026 10:00",
         "type": "terminated",
         "active": true,
         "chat_id": "-1002593119445"
