@@ -6,13 +6,5 @@
         "type": "todo",
         "active": true,
         "chat_id": "-1002593119445"
-    },
-    {
-        "id": 2,
-        "message": "Test Event",
-        "time": "15.01.2026 10:00",
-        "type": "terminated",
-        "active": true,
-        "chat_id": "-1002593119445"
     }
 ]

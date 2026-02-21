@@ -20,6 +20,13 @@ import requests  # Add to top imports if missing (pre-installed on Pi)
 import random  # For picking a fact
 from html import unescape  # For decoding entities like &#91;
 
+import random
+from datetime import datetime, timedelta
+import requests
+from html import unescape
+import re
+
+
 # Global manager instance
 EVENT_MANAGER = EventManager(config["EVENTS_FILE"])
 
@@ -229,100 +236,128 @@ async def list_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     await send_message(update, context, full_response)
 
-FALLBACK_FACTS = [
-    "Wusstet ihr? Die erste Pizza Margherita wurde 1889 in Neapel erfunden – genau wie unser Bot, nur mit mehr Käse!",
-    "Fun Fact: 'Pizza' kommt vom Lateinischen 'pinsa' (flach drücken). Passt perfekt zu unserem Teig!",
-    "Historisch: Am 28. November 1582 führte Papst Gregor XIII. den gregorianischen Kalender ein – Zeit für Termine!",
-    "Italien-Tipp: 'Buon appetito!' heißt 'Guten Appetit' – probiert es beim nächsten Bissen.",
-    "Pizza-Legende: Die Tomate kam 1540 aus Amerika nach Italien – danke, Entdecker, für unsere Sauce!"
-]
+# Fallback-Texte für jede Sprache (wenn Wikiquote mal nicht liefert)
+FALLBACK_IT = "Buon giorno! Oggi nessun appuntamento – ecco un piccolo fatto italiano: La pizza Margherita è stata inventata nel 1889 a Napoli!"
+FALLBACK_EN = "Good morning! No appointments today – here's a fun fact: The first pizza Margherita was created in 1889 in Naples!"
+FALLBACK_DE = "Guten Morgen! Heute keine Termine – ein kleiner Fakt: Die Pizza Margherita wurde 1889 in Neapel erfunden!"
+
+# Rotation-Zyklus: 1=IT, 2=EN, 3=IT, 4=DE, 5=IT, 6=EN, 7=IT
+LANGUAGE_ROTATION = ["it", "en", "it", "de", "it", "en", "it"]
+
+# Headers to be polite to Wikiquote
+HEADERS = {
+    'User-Agent': 'PytstsyToDobot/1.0 (Telegram bot; https://github.com/sgiani95/reminder)'
+}
 
 async def send_reminders(context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Send daily reminders for upcoming events—or a Wikiquote 'Zitat der Woche' if none."""
-    upcoming = EVENT_MANAGER.get_upcoming_for_reminders()
+    """Daily reminder check: send reminders if upcoming events, else a rotating quote."""
+    logger.info("Running daily reminder check")
+
+    # Your global events list (assuming it's already loaded)
+    global events
+
+    current_time = datetime.now()
+    reminder_threshold = current_time + timedelta(hours=24)
+
+    # Find upcoming events (same logic as before)
+    upcoming_events = []
+    for event in events:
+        if event["type"] == "terminated" and event["active"]:
+            dt, _, _ = parse_datetime(event["time"])
+            if dt and current_time <= dt <= reminder_threshold:
+                upcoming_events.append(event)
+
+    if upcoming_events:
+        # Send normal reminders
+        for event in upcoming_events:
+            message = f"🔔 Reminder: {event['message']} is scheduled for {event['time']}!"
+            try:
+                await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=message)
+                logger.info(f"Reminder sent: {event['message']} ({event['time']})")
+            except Exception as e:
+                logger.error(f"Failed to send reminder for {event['message']}: {str(e)}")
+        return
+
+    # No upcoming events → send rotating quote
+
+    # Determine today's language
+    weekday = current_time.isoweekday()          # 1 = Monday ... 7 = Sunday
+    lang = LANGUAGE_ROTATION[weekday - 1]        # 0-based index
+
+    quote = None
+    lang_name = {"it": "Italian", "en": "English", "de": "German"}[lang]
+
+    try:
+        r = requests.get(WIKI_URLS[lang], headers=HEADERS, timeout=10)
+        r.raise_for_status()
+        html = r.text
+
+        # Improved patterns - match quote between heading and attribution/edit link
+        if lang == "it":
+            m = re.search(
+                r'(?:Citazione del giorno|Citazione della settimana).*?<p[^>]*>\s*(“[^”]+?”)\s*(?:<br\s*/?>)?\s*(?:<small>)?\s*—?\s*([^<]+)',
+                html, re.DOTALL | re.IGNORECASE
+            )
+        elif lang == "en":
+            m = re.search(
+                r'(?:Quote of the day|Quote of the week).*?>([^~]+?)\s*~([^~]+?)~',
+                html, re.DOTALL | re.IGNORECASE
+            )
+        else:  # de
+            m = re.search(
+                r'(?:Zitat der Woche|Zitat des Tages).*?<p[^>]*>\s*(“[^”]+?”)\s*(?:<br\s*/?>)?\s*(?:<small>)?\s*—?\s*([^<]+)',
+                html, re.DOTALL | re.IGNORECASE
+            )
+
+        if m:
+            if lang == "en":
+                quote_text = m.group(1).strip()
+                author = m.group(2).strip()
+                quote = f"{quote_text}\n~ {author} ~"
+            else:
+                quote = m.group(1).strip()
+                author_part = m.group(2).strip() if len(m.groups()) > 1 else ""
+                if author_part:
+                    quote += f" — {author_part}"
+            # Clean up
+            quote = unescape(quote)
+            quote = re.sub(r'<.*?>|\[\[.*?\]\]|{{.*?}}|\[http[^\]]+\]', '', quote)
+            quote = re.sub(r'\s+', ' ', quote).strip()
+            if len(quote) > 30:
+                logger.info(f"Successfully extracted {lang_name} quote")
+            else:
+                quote = None
+
+    except Exception as e:
+        logger.warning(f"Failed to fetch {lang_name} quote: {e}")
+        quote = None
     
-    if upcoming:
-        # Existing: Send reminders
-        for event in upcoming:
-            reminder_msg = f"Reminder: {event['message']} is scheduled for {event['time']}!"
-            try:
-                await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=reminder_msg)
-                logger.info(f"Sent reminder for: {event['message']}")
-            except Exception as e:
-                logger.error(f"Failed to send reminder for {event['message']}: {e}")
-    else:
-        # Updated: Fetch Zitat der Woche with retry
-        quote_text = None
-        api_url = "https://de.wikiquote.org/wiki/Wikiquote:Hauptseite"
-        headers = {'User-Agent': 'PytstsyToDoBot/1.0 (https://github.com/sgiani95/reminder; samuele@yourdomain.ch)'}
-        max_retries = 3
-        for attempt in range(max_retries):
-            try:
-                logger.info(f"Fetching quote attempt {attempt + 1}/{max_retries} from {api_url}")
-                response = requests.get(api_url, headers=headers, timeout=10)
-                if response.status_code == 200:
-                    html = response.text
-                    # Refined regex: Capture from "Zitat der Woche" until edit link (handles table | prefix)
-                    match = re.search(
-                        r'Zitat der Woche.*?\|?\s*(.+?)(?=$$   \[bearbeiten   $$\]|$$   \s*\[bearbeiten \$\$\$\$ |\|Zitat der|<h2>|<div class="mw-parser-output">|Neue Seiten)',
-                        html,
-                        re.DOTALL | re.IGNORECASE
-                    )
-                    if match:
-                        quote_html = match.group(1)
-                        # Decode HTML entities (e.g., &#160; → space, &#91; → [)
-                        quote_html = unescape(quote_html)
-                        # Flatten wiki links: [Text](url) → Text
-                        quote_text = re.sub(r'\[([^ $$]+)\]\([^)]+  \]', r'\1', quote_html)
-                        # Strip remaining tags, brackets, and wiki markup
-                        quote_text = re.sub(r'<.*?>|$$   \[.*?   $$\]|$$   .*?   $$|\{.*?\}', '', quote_text).strip()
-                        # Normalize whitespace and fix common splits (e.g., "D er" → "Der")
-                        quote_text = re.sub(r'\s+', ' ', quote_text)
-                        quote_text = re.sub(r'D er\b', 'Der', quote_text)  # Quick fix for line-break artifacts
-                        # Trim after final citation period (stops at "S. 184")
-                        if '.' in quote_text:
-                            quote_text = quote_text[:quote_text.rfind('.') + 1].strip()
-                        if quote_text and len(quote_text) > 20:  # Sanity check
-                            logger.info(f"Quote fetched successfully: {quote_text[:50]}...")
-                            break
-                    else:
-                        raise ValueError("No quote section found in HTML")
-                else:
-                    logger.warning(f"API status {response.status_code}: {response.text[:100]}...")
-                    if attempt < max_retries - 1:
-                        time.sleep(2 ** attempt)
-            except Exception as e:
-                logger.warning(f"Quote fetch attempt {attempt + 1} failed: {str(e)}")
-                if attempt < max_retries - 1:
-                    time.sleep(2 ** attempt)
-                else:
-                    logger.error(f"All retries failed for {api_url}")
-        
-        if quote_text:
-            # Truncate if long
-            if len(quote_text) > 400:
-                quote_text = quote_text[:400] + "..."
-            placeholder_msg = (
-                f"Guten Morgen! Keine Termine heute – Zitat der Woche:\n\n"
-                f"{quote_text}\n\n"
-                f"Was denkt ihr darüber? 💭"
-            )
-        else:
-            # Fallback: Random static fact
-            fallback = random.choice(FALLBACK_FACTS)
-            placeholder_msg = (
-                f"Guten Morgen! Keine Termine heute – hier ein kleiner Fun Fact als Plan B:\n\n"
-                f"{fallback}\n\n"
-                f"Zeit für Kreativität in der Küche!"
-            )
-            logger.info("Using fallback fact due to scrape failure")
-        
-        try:
-            await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=placeholder_msg)
-            logger.info("Sent daily quote/fact (no events)")
-        except Exception as e:
-            logger.error(f"Failed to send daily quote/fact: {e}")
-            
+    # Fallback if no quote was found
+    if not quote:
+        quote = {
+            "it": FALLBACK_IT,
+            "en": FALLBACK_EN,
+            "de": FALLBACK_DE
+        }[lang]
+
+    # Build final message
+    header = {
+        "it": "Buongiorno! Oggi nessun appuntamento – ecco la citazione del giorno:\n\n",
+        "en": "Good morning! No appointments today – here’s the quote of the day:\n\n",
+        "de": "Guten Morgen! Heute keine Termine – hier ist das Zitat der Woche:\n\n"
+    }[lang]
+
+    final_message = header + quote
+
+    try:
+        await context.bot.send_message(
+            chat_id=GROUP_CHAT_ID,
+            text=final_message
+        )
+        logger.info(f"Sent {lang_name} quote/fallback")
+    except Exception as e:
+        logger.error(f"Failed to send quote message: {e}")
+                            
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Handle /help command."""
     if not await validate_group(update, context):
