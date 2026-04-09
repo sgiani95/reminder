@@ -1,0 +1,612 @@
+„Der einzige Weg, großartige Arbeit zu leisten, ist, zu lieben, was man tut.“ – Steve Jobs
+„Man sieht nur mit dem Herzen gut. Das Wesentliche ist für die Augen unsichtbar.“ – Antoine de Saint-Exupéry
+„Glück ist nicht etwas Fertiges. Es entsteht aus deinen eigenen Taten.“ – Dalai Lama
+„Die größte Freude im Leben besteht darin, das zu tun, von dem die Leute sagen, du könntest es nicht.“ – Walter Bagehot
+„Wer aufhört zu lernen, hat aufgehört zu leben.“ – Albert Einstein
+„Man muss das Unmögliche versuchen, um das Mögliche zu erreichen.“ – Hermann Hesse
+„Ein Tag ohne Lachen ist ein verlorener Tag.“ – Charlie Chaplin
+„Die Zukunft gehört denen, die an die Schönheit ihrer Träume glauben.“ – Eleanor Roosevelt
+„Sei du selbst. Alle anderen sind schon vergeben.“ – Oscar Wilde
+„Lebe so, dass du, wenn du stirbst, auch wirklich gelebt hast.“ – Marc Aurel
+„Freunde sind die Familie, die wir uns aussuchen.“ – Anonym
+„Manchmal ist das Leben wie eine Tasse Tee: Man muss nur den richtigen Moment abwarten.“ – Anonym
+„Die besten Dinge im Leben sind nicht die, die man für Geld kaufen kann.“ – Anonym
+„Jeder Mensch ist ein Künstler. Das Problem ist nur, dass die meisten es vergessen haben.“ – Anonym
+„Lächeln kostet nichts und macht alles schöner.“ – Anonym
+„Man braucht nicht viel, um glücklich zu sein – nur die richtigen Menschen um sich herum.“ – Anonym
+„Der Weg ist das Ziel.“ – Konfuzius
+„Alles, was du dir vorstellen kannst, ist real.“ – Pablo Picasso
+„Wer nicht jeden Tag ein bisschen Zeit für seine Träume opfert, wird nie erfahren, wie nah sie waren.“ – Anonym
+„Die Sonne scheint auch für dich – du musst nur die Augen öffnen.“ – Anonym
+„Es ist nie zu spät, das zu werden, was man hätte sein können.“ – George Eliot
+„Die wahre Entdeckungsreise besteht nicht darin, neue Landschaften zu suchen, sondern mit neuen Augen zu sehen.“ – Marcel Proust
+„Wer kämpft, kann verlieren. Wer nicht kämpft, hat schon verloren.“ – Bertolt Brecht
+„Das Leben ist wie Fahrradfahren. Man muss sich vorwärts bewegen, um das Gleichgewicht zu halten.“ – Albert Einstein
+„Zufriedenheit ist das Geheimnis des Glücks.“ – Aristoteles
+„Die schönsten Augenblicke im Leben sind die, die man mit anderen teilt.“ – Anonym
+„Jede Reise beginnt mit dem ersten Schritt.“ – Lao Tse
+„Wer nicht wagt, der nicht gewinnt.“ – Sprichwort
+„Liebe ist die einzige Kraft, die die Welt verändern kann.“ – Martin Luther King
+„In der Mitte von Schwierigkeiten liegen die Möglichkeiten.“ – Albert Einstein
+„Sei der Wandel, den du in der Welt sehen willst.“ – Mahatma Gandhi
+„Das Leben ist zu kurz, um kleine Träume zu träumen.“ – Anonym
+„Mut ist nicht die Abwesenheit von Angst, sondern die Überwindung davon.“ – Anonym
+„Jeder Tag ist eine neue Chance.“ – Anonym
+„Die besten Dinge im Leben sind kostenlos.“ – Anonym
+„Lachen ist die beste Medizin.“ – Anonym
+„Träume nicht dein Leben, lebe deinen Traum.“ – Anonym
+„Alles hat seine Zeit.“ – Bibel (Prediger)
+„Wer zu spät kommt, den bestraft das Leben.“ – Michail Gorbatschow
+„Nur wer sein Ziel kennt, findet den Weg.“ – Lao Tse
+„Die größte Ehre liegt nicht darin, nie zu fallen, sondern jedes Mal wieder aufzustehen.“ – Konfuzius
+„Sei dankbar für das, was du hast.“ – Anonym
+„Das Glück ist das Einzige, was sich verdoppelt, wenn man es teilt.“ – Anonym
+„Ein Lächeln kostet nichts und öffnet viele Türen.“ – Anonym
+„Die Zeit heilt alle Wunden.“ – Sprichwort
+„Wer anderen eine Grube gräbt, fällt selbst hinein.“ – Sprichwort
+„Besser spät als nie.“ – Sprichwort
+„Ohne Fleiß kein Preis.“ – Sprichwort
+„Wer rastet, der rostet.“ – Sprichwort
+„Aus Fehlern wird man klug.“ – Sprichwort
+„Der frühe Vogel fängt den Wurm.“ – Sprichwort
+„Aller Anfang ist schwer.“ – Sprichwort
+„Übung macht den Meister.“ – Sprichwort
+„Steter Tropfen höhlt den Stein.“ – Sprichwort
+„Was du heute kannst besorgen, das verschiebe nicht auf morgen.“ – Sprichwort
+„Lieber den Spatz in der Hand als die Taube auf dem Dach.“ – Sprichwort
+„Viele Wege führen nach Rom.“ – Sprichwort
+„Wer nicht hören will, muss fühlen.“ – Sprichwort
+„Gleich und gleich gesellt sich gern.“ – Sprichwort
+„Eile mit Weile.“ – Sprichwort
+„Gut Ding will Weile haben.“ – Sprichwort
+„Wer wagt, gewinnt.“ – Sprichwort
+„Der Apfel fällt nicht weit vom Stamm.“ – Sprichwort
+„Wer im Glashaus sitzt, sollte nicht mit Steinen werfen.“ – Sprichwort
+„Man soll den Tag nicht vor dem Abend loben.“ – Sprichwort
+„Morgenstund hat Gold im Mund.“ – Sprichwort
+„Kleider machen Leute.“ – Sprichwort
+„Hunger ist der beste Koch.“ – Sprichwort
+„Liebe geht durch den Magen.“ – Sprichwort
+„Reden ist Silber, Schweigen ist Gold.“ – Sprichwort
+„Was lange währt, wird endlich gut.“ – Sprichwort
+„Besser ein Ende mit Schrecken als ein Schrecken ohne Ende.“ – Sprichwort
+„Der Klügere gibt nach.“ – Sprichwort
+„Geteilte Freude ist doppelte Freude.“ – Sprichwort
+„Geteiltes Leid ist halbes Leid.“ – Sprichwort
+„Wer zuerst kommt, mahlt zuerst.“ – Sprichwort
+„Aufgeschoben ist nicht aufgehoben.“ – Sprichwort
+„Der Fisch stinkt vom Kopf her.“ – Sprichwort
+„Wie man in den Wald hineinruft, so schallt es heraus.“ – Sprichwort
+„Ein Bild sagt mehr als tausend Worte.“ – Sprichwort
+„Wer den Pfennig nicht ehrt, ist des Talers nicht wert.“ – Sprichwort
+„Vorsicht ist die Mutter der Porzellankiste.“ – Sprichwort
+„Probieren geht über Studieren.“ – Sprichwort
+„Lieber arm und gesund als reich und krank.“ – Sprichwort
+„Der Mensch lebt nicht vom Brot allein.“ – Bibel
+„Liebe deinen Nächsten wie dich selbst.“ – Bibel
+„Wer anderen hilft, hilft sich selbst.“ – Anonym
+„Geduld ist eine Tugend.“ – Anonym
+„Hoffnung stirbt zuletzt.“ – Anonym
+„Jeder ist seines Glückes Schmied.“ – Sprichwort
+„Wo ein Wille ist, ist auch ein Weg.“ – Sprichwort
+„Zeit ist Geld.“ – Benjamin Franklin
+„Wissen ist Macht.“ – Francis Bacon
+„Immer mit der Ruhe.“ – Anonym
+„Lass dich nicht unterkriegen.“ – Anonym
+„Jeder Anfang ist schwer, aber lohnenswert.“ – Anonym
+„Bleib dir selbst treu.“ – Anonym
+„Das Leben ist schön.“ – Anonym
+„Genieße den Moment.“ – Anonym
+„Alles wird gut.“ – Anonym
+„Du schaffst das.“ – Anonym
+„Sei mutig.“ – Anonym
+„Vertraue dir selbst.“ – Anonym
+„Liebe dich selbst.“ – Anonym
+„Sei dankbar.“ – Anonym
+„Lebe im Hier und Jetzt.“ – Anonym
+„Folge deinem Herzen.“ – Anonym
+„Träume groß.“ – Anonym
+„Gib niemals auf.“ – Anonym
+„Sei positiv.“ – Anonym
+„Lächle öfter.“ – Anonym
+„Hilf anderen.“ – Anonym
+„Sei freundlich.“ – Anonym
+„Bleib neugierig.“ – Anonym
+„Lerne aus Fehlern.“ – Anonym
+„Feiere kleine Erfolge.“ – Anonym
+„Sei geduldig mit dir selbst.“ – Anonym
+„Verliere nie die Hoffnung.“ – Anonym
+„Jeder Tag ist ein Geschenk.“ – Anonym
+„Mach das Beste draus.“ – Anonym
+„Sei stolz auf dich.“ – Anonym
+„Du bist genug.“ – Anonym
+„Vertraue dem Prozess.“ – Anonym
+„Alles hat seinen Sinn.“ – Anonym
+„Du bist stärker als du denkst.“ – Anonym
+„Lass los, was dich belastet.“ – Anonym
+„Sei offen für Neues.“ – Anonym
+„Genieße die kleinen Dinge.“ – Anonym
+„Sei authentisch.“ – Anonym
+„Verändere, was du ändern kannst.“ – Anonym
+„Akzeptiere, was du nicht ändern kannst.“ – Anonym
+„Sei dankbar für jeden Tag.“ – Anonym
+„Lebe mit Leidenschaft.“ – Anonym
+„Gib dein Bestes.“ – Anonym
+„Vertraue deiner Intuition.“ – Anonym
+„Sei mutig genug zu beginnen.“ – Anonym
+„Feiere das Leben.“ – Anonym
+„Du bist einzigartig.“ – Anonym
+„Jeder Moment zählt.“ – Anonym
+„Sei liebevoll.“ – Anonym
+„Verbreite Freude.“ – Anonym
+„Bleib optimistisch.“ – Anonym
+„Du kannst alles schaffen.“ – Anonym
+„Verliere nie deinen Humor.“ – Anonym
+„Sei dankbar für die Menschen um dich herum.“ – Anonym
+„Lebe bewusst.“ – Anonym
+„Mach jeden Tag zu etwas Besonderem.“ – Anonym
+„Du bist wertvoll.“ – Anonym
+„Vertraue auf dich.“ – Anonym
+„Lass dich nicht entmutigen.“ – Anonym
+„Jeder Tag ist eine neue Chance.“ – Anonym
+„Sei stolz auf deinen Weg.“ – Anonym
+„Genieße die Reise.“ – Anonym
+„Du bist nie allein.“ – Anonym
+„Alles wird sich fügen.“ – Anonym
+„Sei mutig, sei du selbst.“ – Anonym
+„Das Leben ist ein Abenteuer.“ – Anonym
+„Vertraue dem Leben.“ – Anonym
+„Du bist stärker als deine Ängste.“ – Anonym
+„Jeder Schritt zählt.“ – Anonym
+„Sei dankbar für die kleinen Freuden.“ – Anonym
+„Lebe mit Liebe im Herzen.“ – Anonym
+„Du bist wunderbar.“ – Anonym
+„Alles ist möglich.“ – Anonym
+„Verliere nie deinen Glauben.“ – Anonym
+„Sei geduldig mit dir und anderen.“ – Anonym
+„Jeder Tag bringt neue Möglichkeiten.“ – Anonym
+„Du schaffst das – Schritt für Schritt.“ – Anonym
+„Vivere insieme è un'arte.“ – Thích Nhất Hạnh
+„La vita è troppo breve per bere vino cattivo.“ – Johann Wolfgang von Goethe
+„Non è mai troppo tardi per essere ciò che avresti potuto essere.“ – George Eliot
+„La felicità non è qualcosa di pronto. Viene dalle tue stesse azioni.“ – Dalai Lama
+„Chi non conosce la storia è condannato a ripeterla.“ – George Santayana
+„L'unico modo per fare un ottimo lavoro è amare quello che fai.“ – Steve Jobs
+„La vita è come andare in bicicletta. Per mantenere l'equilibrio devi muoverti.“ – Albert Einstein
+„Sii il cambiamento che vuoi vedere nel mondo.“ – Mahatma Gandhi
+„La semplicità è la massima sofisticazione.“ – Leonardo da Vinci
+„Chi non osa, non guadagna.“ – Proverbio italiano
+„L'importante non è ciò che fai, ma come lo fai.“ – Anonimo
+„Ogni giorno è una nuova opportunità.“ – Anonimo
+„La vita è troppo breve per essere piccoli.“ – Anonimo
+„Sorridi, è gratis e rende tutto più bello.“ – Anonimo
+„Gli amici sono la famiglia che scegliamo.“ – Anonimo
+„Chi trova un amico, trova un tesoro.“ – Proverbio italiano
+„L'amore è l'unica forza capace di trasformare il mondo.“ – Anonimo
+„Non rimandare a domani ciò che puoi fare oggi.“ – Proverbio italiano
+„La pazienza è la virtù dei forti.“ – Anonimo
+„La felicità è fatta di piccole cose.“ – Anonimo
+„Sii te stesso. Tutti gli altri sono già presi.“ – Oscar Wilde
+„Il viaggio di mille miglia inizia con un solo passo.“ – Lao Tzu
+„La vera scoperta consiste nel vedere con nuovi occhi.“ – Marcel Proust
+„Chi combatte può perdere. Chi non combatte ha già perso.“ – Bertolt Brecht
+„La vita è ciò che ti succede mentre sei impegnato a fare altri progetti.“ – John Lennon
+„L'importante è non smettere mai di domandarsi.“ – Albert Einstein
+„La speranza è l'ultima a morire.“ – Proverbio italiano
+„Tutto passa, anche questo passerà.“ – Proverbio persiano
+„La gratitudine trasforma ciò che abbiamo in abbastanza.“ – Anonimo
+„Ogni mattina è un nuovo inizio.“ – Anonimo
+„La vita è bella, goditela.“ – Anonimo
+„Sii gentile, è gratis.“ – Anonimo
+„L'amore non ha età.“ – Anonimo
+„Chi semina amore, raccoglie felicità.“ – Anonimo
+„La pazienza è madre di tutte le virtù.“ – Proverbio italiano
+„Non arrenderti mai.“ – Anonimo
+„Sogna in grande.“ – Anonimo
+„La vita è un'avventura.“ – Anonimo
+„Ogni momento conta.“ – Anonimo
+„Sii coraggioso.“ – Anonimo
+„La felicità è una scelta.“ – Anonimo
+„Ama te stesso.“ – Anonimo
+„La vita è troppo breve per arrabbiarsi.“ – Anonimo
+„Sii grato per ciò che hai.“ – Anonimo
+„Ogni giorno è un regalo.“ – Anonimo
+„La semplicità è la vera eleganza.“ – Anonimo
+„Chi ride ultimo ride meglio.“ – Proverbio italiano
+„La fortuna aiuta gli audaci.“ – Proverbio latino
+„Meglio tardi che mai.“ – Proverbio italiano
+„Chi non lavora, non mangia.“ – Proverbio italiano
+„L'unione fa la forza.“ – Proverbio italiano
+„Parlare è facile, agire è difficile.“ – Anonimo
+„La verità rende liberi.“ – Bibbia
+„L'amore vince tutto.“ – Virgilio
+„La conoscenza è potere.“ – Francis Bacon
+„Il tempo è denaro.“ – Benjamin Franklin
+„Chi cerca trova.“ – Proverbio italiano
+„Non giudicare un libro dalla copertina.“ – Proverbio inglese
+„Meglio un uovo oggi che una gallina domani.“ – Proverbio italiano
+„La pratica rende perfetti.“ – Proverbio
+„L'abitudine è una seconda natura.“ – Anonimo
+„Chi va piano va sano e va lontano.“ – Proverbio italiano
+„Il diavolo fa le pentole ma non i coperchi.“ – Proverbio italiano
+„A caval donato non si guarda in bocca.“ – Proverbio italiano
+„Tra il dire e il fare c'è di mezzo il mare.“ – Proverbio italiano
+„Chi dorme non piglia pesci.“ – Proverbio italiano
+„L'appetito vien mangiando.“ – Proverbio italiano
+„Chi è causa del suo mal pianga se stesso.“ – Proverbio italiano
+„Il fine giustifica i mezzi.“ – Niccolò Machiavelli
+„La vendetta è un piatto che va servito freddo.“ – Proverbio
+„Meglio soli che male accompagnati.“ – Proverbio italiano
+„L'ozio è il padre dei vizi.“ – Proverbio italiano
+„Chi ben comincia è a metà dell'opera.“ – Proverbio italiano
+„Il mattino ha l'oro in bocca.“ – Proverbio italiano
+„Le bugie hanno le gambe corte.“ – Proverbio italiano
+„Chi tace acconsente.“ – Proverbio italiano
+„Non tutto il male viene per nuocere.“ – Proverbio italiano
+„A buon intenditor poche parole.“ – Proverbio italiano
+„Chi ha tempo non aspetti tempo.“ – Proverbio italiano
+„Il lupo perde il pelo ma non il vizio.“ – Proverbio italiano
+„Tra moglie e marito non mettere il dito.“ – Proverbio italiano
+„L'abito non fa il monaco.“ – Proverbio italiano
+„Chi trova un amico trova un tesoro.“ – Proverbio italiano
+„Meglio un amico in casa che cento in piazza.“ – Proverbio italiano
+„L'unione fa la forza.“ – Proverbio italiano
+„Chi non semina non raccoglie.“ – Proverbio italiano
+„Il buon giorno si vede dal mattino.“ – Proverbio italiano
+„Chi semina vento raccoglie tempesta.“ – Proverbio italiano
+„La pazienza è la virtù dei forti.“ – Anonimo
+„La vita è fatta di piccoli attimi.“ – Anonimo
+„Sii la persona che vorresti incontrare.“ – Anonimo
+„Ogni tramonto è l'inizio di una nuova alba.“ – Anonimo
+„La felicità è dentro di te.“ – Anonimo
+„Sii gentile con te stesso.“ – Anonimo
+„La vita è un viaggio, non una destinazione.“ – Anonimo
+„Ogni giorno è una pagina bianca.“ – Anonimo
+„Sii coraggioso abbastanza per cominciare.“ – Anonimo
+„La gratitudine trasforma ciò che hai in abbastanza.“ – Anonimo
+„La vera ricchezza è la salute.“ – Anonimo
+„Sii presente.“ – Anonimo
+„La vita è troppo breve per sprecarla.“ – Anonimo
+„Ogni errore è una lezione.“ – Anonimo
+„La semplicità è la vera eleganza.“ – Anonimo
+„Sii te stesso, tutti gli altri sono già presi.“ – Oscar Wilde
+„La vita è bella quando la vivi con amore.“ – Anonimo
+„Non smettere mai di sognare.“ – Anonimo
+„La speranza è l'ultima a morire.“ – Proverbio italiano
+„Tutto passa.“ – Proverbio italiano
+„La pazienza vince tutto.“ – Proverbio italiano
+„Chi non risica non rosica.“ – Proverbio italiano
+„Meglio un uovo oggi che una gallina domani.“ – Proverbio italiano
+„La fortuna è cieca.“ – Proverbio italiano
+„Chi cerca trova.“ – Proverbio italiano
+„Il tempo guarisce ogni ferita.“ – Proverbio italiano
+„La vita è un dono.“ – Anonimo
+„Sii grato per ogni giorno.“ – Anonimo
+„La felicità è una scelta.“ – Anonimo
+„Ogni momento è prezioso.“ – Anonimo
+„La vita è un'avventura da vivere.“ – Anonimo
+„Sii positivo.“ – Anonimo
+„La gentilezza è contagiosa.“ – Anonimo
+„Non arrenderti mai.“ – Anonimo
+„Sii forte.“ – Anonimo
+„La vita è troppo breve per odiare.“ – Anonimo
+„Sii te stesso.“ – Anonimo
+„Ogni giorno è un nuovo inizio.“ – Anonimo
+„La vita è fatta di scelte.“ – Anonimo
+„Sii coraggioso.“ – Anonimo
+„La felicità è dentro di noi.“ – Anonimo
+„Sii grato.“ – Anonimo
+„La vita è un miracolo.“ – Anonimo
+“The only way to do great work is to love what you do.” – Steve Jobs
+“Life is what happens when you’re busy making other plans.” – John Lennon
+“Be yourself; everyone else is already taken.” – Oscar Wilde
+“The future belongs to those who believe in the beauty of their dreams.” – Eleanor Roosevelt
+“Happiness is not something ready made. It comes from your own actions.” – Dalai Lama
+“Everything you can imagine is real.” – Pablo Picasso
+“Do not go where the path may lead, go instead where there is no path and leave a trail.” – Ralph Waldo Emerson
+“The only impossible journey is the one you never begin.” – Tony Robbins
+“Life is short, smile while you still have teeth.” – Anonymous
+“In the middle of difficulty lies opportunity.” – Albert Einstein
+“Be the change that you wish to see in the world.” – Mahatma Gandhi
+“Success is not final, failure is not fatal: It is the courage to continue that counts.” – Winston Churchill
+“The best way to predict the future is to create it.” – Abraham Lincoln
+“Every moment is a fresh beginning.” – T.S. Eliot
+“Stay close to anything that makes you glad you are alive.” – Hafiz
+“Life is really simple, but we insist on making it complicated.” – Confucius
+“The biggest adventure you can take is to live the life of your dreams.” – Oprah Winfrey
+“Believe you can and you’re halfway there.” – Theodore Roosevelt
+“Do what you feel in your heart to be right – for you’ll be criticized anyway.” – Eleanor Roosevelt
+“Everything comes to you at the right moment. Be patient.” – Anonymous
+“The only limit to our realization of tomorrow will be our doubts of today.” – Franklin D. Roosevelt
+“Kindness is a language which the deaf can hear and the blind can see.” – Mark Twain
+“Life isn’t about finding yourself. Life is about creating yourself.” – George Bernard Shaw
+“Small steps every day lead to big results.” – Anonymous
+“The best revenge is massive success.” – Frank Sinatra
+“Happiness is a choice.” – Anonymous
+“Be kind, for everyone you meet is fighting a hard battle.” – Plato
+“You are never too old to set another goal or to dream a new dream.” – C.S. Lewis
+“Stay patient and trust your journey.” – Anonymous
+“The only way out is through.” – Robert Frost
+“Dream big and dare to fail.” – Norman Vaughan
+“Life is short, live it fully.” – Anonymous
+“What you get by achieving your goals is not as important as what you become by achieving your goals.” – Zig Ziglar
+“Be the reason someone smiles today.” – Anonymous
+“Everything you’ve ever wanted is sitting on the other side of fear.” – George Addair
+“Gratitude turns what we have into enough.” – Anonymous
+“Progress is impossible without change.” – George Bernard Shaw
+“Do one thing every day that scares you.” – Eleanor Roosevelt
+“Peace begins with a smile.” – Mother Teresa
+“Live the life you’ve imagined.” – Henry David Thoreau
+“The best time to plant a tree was 20 years ago. The second best time is now.” – Chinese Proverb
+“You miss 100% of the shots you don’t take.” – Wayne Gretzky
+“Be yourself, no one else can.” – Anonymous
+“Kindness costs nothing.” – Anonymous
+“Every day is a second chance.” – Anonymous
+“Smile, it’s free therapy.” – Anonymous
+“The only thing standing between you and your goal is the story you keep telling yourself.” – Jordan Belfort
+“Life is tough, my darling, but so are you.” – Stephanie Bennett-Henry
+“Make today so awesome that yesterday gets jealous.” – Anonymous
+“You are enough just as you are.” – Meghan Markle
+“Fall seven times, stand up eight.” – Japanese Proverb
+“Be gentle with yourself.” – Anonymous
+“Choose joy.” – Anonymous
+“Love yourself first.” – Anonymous
+“The sun is always shining somewhere.” – Anonymous
+“Keep going. You’re closer than you think.” – Anonymous
+“Believe in yourself.” – Anonymous
+“Small progress is still progress.” – Anonymous
+“You are stronger than you think.” – Anonymous
+“Today is a good day to be happy.” – Anonymous
+“Trust the timing of your life.” – Anonymous
+“Be the light.” – Anonymous
+“Stay curious.” – Anonymous
+“Every sunrise is an invitation to brighten someone’s day.” – Anonymous
+“You are capable of amazing things.” – Anonymous
+“Progress over perfection.” – Anonymous
+“Kindness is magic.” – Anonymous
+“Live simply, dream big.” – Anonymous
+“Your only limit is you.” – Anonymous
+“Be brave enough to be happy.” – Anonymous
+“Life is beautiful.” – Anonymous
+“Be kind to unkind people, they need it the most.” – Anonymous
+“Dream without fear.” – Anonymous
+“You are doing better than you think.” – Anonymous
+“Choose happiness every day.” – Anonymous
+“Stay positive.” – Anonymous
+“The best is yet to come.” – Anonymous
+“Be the person you needed when you were younger.” – Anonymous
+“Keep shining.” – Anonymous
+“Life is short, make it sweet.” – Anonymous
+“You are enough.” – Anonymous
+“Every day is a new beginning.” – Anonymous
+“Be gentle with yourself.” – Anonymous
+“Smile more.” – Anonymous
+“Love fiercely.” – Anonymous
+“Stay wild.” – Anonymous
+“Be fearless.” – Anonymous
+“You’ve got this.” – Anonymous
+“Keep moving forward.” – Anonymous
+“Life is an adventure.” – Anonymous
+“Be present.” – Anonymous
+“Trust the process.” – Anonymous
+“You are stronger than your struggles.” – Anonymous
+“Every moment matters.” – Anonymous
+“Be the change.” – Anonymous
+“Stay humble.” – Anonymous
+“Keep dreaming.” – Anonymous
+“Life is a journey, enjoy the ride.” – Anonymous
+“You are beautiful inside and out.” – Anonymous
+“Be kind, always.” – Anonymous
+“Every day is a gift.” – Anonymous
+“Stay true to yourself.” – Anonymous
+“You are capable of great things.” – Anonymous
+“Be the reason someone believes in goodness.” – Anonymous
+“Keep going, you’re doing great.” – Anonymous
+“Life is too short to wait.” – Anonymous
+“Be grateful for today.” – Anonymous
+“You are loved.” – Anonymous
+“Stay strong.” – Anonymous
+“Every sunrise brings hope.” – Anonymous
+“Be the light in someone’s darkness.” – Anonymous
+“Keep believing.” – Anonymous
+“You are never alone.” – Anonymous
+“Life is beautiful when shared.” – Anonymous
+“Be patient with yourself.” – Anonymous
+“Every step forward counts.” – Anonymous
+“Stay positive, work hard, make it happen.” – Anonymous
+“You are enough exactly as you are.” – Anonymous
+“Keep shining, beautiful soul.” – Anonymous
+“Life is short, be kind.” – Anonymous
+“Believe in your dreams.” – Anonymous
+“You are braver than you believe.” – Anonymous
+“Every day is a fresh start.” – Anonymous
+“Stay wild and free.” – Anonymous
+“You are magic.” – Anonymous
+“Be gentle, be kind, be you.” – Anonymous
+“Life is better when you laugh.” – Anonymous
+“Keep your heart open.” – Anonymous
+“You are worthy of all good things.” – Anonymous
+“Stay curious, stay kind.” – Anonymous
+“Every ending is a new beginning.” – Anonymous
+“Be the best version of yourself.” – Anonymous
+“You are stronger than yesterday.” – Anonymous
+“Life is a beautiful struggle.” – Anonymous
+“Keep going, you’re almost there.” – Anonymous
+“You are a work of art.” – Anonymous
+“Be fearless in the pursuit of what sets your soul on fire.” – Anonymous
+“Every day is a chance to be better.” – Anonymous
+“You are loved more than you know.” – Anonymous
+“Stay true, stay you.” – Anonymous
+“Life is too short for regrets.” – Anonymous
+“Be the reason someone smiles today.” – Anonymous
+“You are enough.” – Anonymous
+“Keep shining.” – Anonymous
+“Life is beautiful.” – Anonymous
+“Be kind to yourself.” – Anonymous
+«La vie est trop courte pour boire du mauvais vin.» – Johann Wolfgang von Goethe
+«On ne voit bien qu’avec le cœur. L’essentiel est invisible pour les yeux.» – Antoine de Saint-Exupéry
+«Le bonheur n’est pas quelque chose de prêt à l’emploi. Il vient de vos propres actions.» – Dalai Lama
+«Soyez le changement que vous voulez voir dans le monde.» – Mahatma Gandhi
+«La simplicité est la sophistication suprême.» – Léonard de Vinci
+«Celui qui n’ose rien ne gagne rien.» – Proverbe français
+«Chaque jour est une nouvelle opportunité.» – Anonyme
+«La vie est trop courte pour être petit.» – Anonyme
+«Souris, c’est gratuit et ça rend tout plus beau.» – Anonyme
+«Les amis sont la famille que l’on choisit.» – Anonyme
+«Qui trouve un ami trouve un trésor.» – Proverbe français
+«L’amour est la seule force capable de transformer le monde.» – Anonyme
+«Ne remets pas à demain ce que tu peux faire aujourd’hui.» – Proverbe français
+«La patience est la vertu des forts.» – Anonyme
+«Le bonheur est fait de petites choses.» – Anonyme
+«Sois toi-même, tous les autres sont déjà pris.» – Oscar Wilde
+«Le voyage de mille lieues commence par un seul pas.» – Lao Tseu
+«Qui combat peut perdre. Qui ne combat pas a déjà perdu.» – Bertolt Brecht
+«La vie, c’est ce qui arrive pendant que tu es occupé à faire d’autres projets.» – John Lennon
+«L’important est de ne jamais cesser de se poser des questions.» – Albert Einstein
+«L’espoir est la dernière chose à mourir.» – Proverbe français
+«Tout passe, même ça passera.» – Anonyme
+«La gratitude transforme ce que nous avons en suffisance.» – Anonyme
+«Chaque matin est un nouveau départ.» – Anonyme
+«La vie est belle, profite-en.» – Anonyme
+«Sois gentil, c’est gratuit.» – Anonyme
+«L’amour n’a pas d’âge.» – Anonyme
+«Qui sème l’amour récolte le bonheur.» – Anonyme
+«La patience est mère de toutes les vertus.» – Proverbe français
+«N’abandonne jamais.» – Anonyme
+«Rêve grand.» – Anonyme
+«La vie est une aventure.» – Anonyme
+«Chaque instant compte.» – Anonyme
+«Sois courageux.» – Anonyme
+«Le bonheur est un choix.» – Anonyme
+«Aime-toi toi-même.» – Anonyme
+«La vie est trop courte pour se mettre en colère.» – Anonyme
+«Sois reconnaissant pour ce que tu as.» – Anonyme
+«Chaque jour est un cadeau.» – Anonyme
+«La simplicité est la vraie élégance.» – Anonyme
+«Qui rit le dernier rit le mieux.» – Proverbe français
+«La fortune sourit aux audacieux.» – Proverbe latin
+«Mieux vaut tard que jamais.» – Proverbe français
+«L’union fait la force.» – Proverbe français
+«Parler est facile, agir est difficile.» – Anonyme
+«L’amour triomphe de tout.» – Virgile
+«La connaissance, c’est le pouvoir.» – Francis Bacon
+«Le temps, c’est de l’argent.» – Benjamin Franklin
+«Qui cherche trouve.» – Proverbe français
+«Mieux vaut un œuf aujourd’hui qu’une poule demain.» – Proverbe français
+«Qui va piano va sano.» – Proverbe français
+«Le diable fait les pots mais pas les couvercles.» – Proverbe français
+«À cheval donné on ne regarde pas les dents.» – Proverbe français
+«Entre le dire et le faire il y a la mer.» – Proverbe français
+«Qui dort ne prend pas de poisson.» – Proverbe français
+«L’appétit vient en mangeant.» – Proverbe français
+«Qui est cause de son mal, qu’il en pleure.» – Proverbe français
+«Mieux vaut être seul que mal accompagné.» – Proverbe français
+«L’oisiveté est mère de tous les vices.» – Proverbe français
+«Qui bien commence est à moitié fait.» – Proverbe français
+«Le matin a de l’or dans la bouche.» – Proverbe français
+«Les mensonges ont les jambes courtes.» – Proverbe français
+«Qui se tait consent.» – Proverbe français
+«Pas tout le mal vient pour nuire.» – Proverbe français
+«À bon entendeur, salut.» – Proverbe français
+«Qui a du temps ne doit pas attendre le temps.» – Proverbe français
+«Le loup perd son poil mais pas son vice.» – Proverbe français
+«Entre mari et femme il ne faut pas mettre le doigt.» – Proverbe français
+«L’habit ne fait pas le moine.» – Proverbe français
+«Mieux vaut un ami dans la maison que cent sur la place.» – Proverbe français
+«Qui ne sème rien ne récolte rien.» – Proverbe français
+«Le bon jour se voit au matin.» – Proverbe français
+«Qui sème le vent récolte la tempête.» – Proverbe français
+«La patience est la vertu des forts.» – Anonyme
+«La vie est faite de petits instants.» – Anonyme
+«Sois la personne que tu voudrais rencontrer.» – Anonyme
+«Chaque coucher de soleil est le début d’une nouvelle aurore.» – Anonyme
+«Le bonheur est en toi.» – Anonyme
+«Sois gentil avec toi-même.» – Anonyme
+«La vie est un voyage, pas une destination.» – Anonyme
+«Chaque jour est une page blanche.» – Anonyme
+«Sois assez courageux pour commencer.» – Anonyme
+«La vraie richesse, c’est la santé.» – Anonyme
+«Sois présent.» – Anonyme
+«La vie est trop courte pour la gâcher.» – Anonyme
+«Chaque erreur est une leçon.» – Anonyme
+«Sois toi-même, toujours.» – Anonyme
+«La vie est belle quand on la vit avec amour.» – Anonyme
+«N’arrête jamais de rêver.» – Anonyme
+«Tout passe.» – Anonyme
+«Qui ne risque rien n’a rien.» – Proverbe français
+«Mieux vaut un œuf aujourd’hui qu’une poule demain.» – Proverbe français
+«La fortune est aveugle.» – Proverbe français
+«Le temps guérit toutes les blessures.» – Proverbe français
+«La vie est un cadeau.» – Anonyme
+«Sois reconnaissant chaque jour.» – Anonyme
+«Le bonheur est un choix.» – Anonyme
+«Chaque instant est précieux.» – Anonyme
+«La vie est une aventure à vivre.» – Anonyme
+«Sois positif.» – Anonyme
+«La gentillesse est contagieuse.» – Anonyme
+«Ne jamais abandonner.» – Anonyme
+«Sois fort.» – Anonyme
+«La vie est trop courte pour haïr.» – Anonyme
+«Sois toi-même.» – Anonyme
+«Chaque jour est un nouveau commencement.» – Anonyme
+«La vie est faite de choix.» – Anonyme
+«Sois courageux.» – Anonyme
+«Le bonheur est en nous.» – Anonyme
+«Sois reconnaissant.» – Anonyme
+«La vie est un miracle.» – Anonyme
+«Sois gentil.» – Anonyme
+«Chaque sourire compte.» – Anonyme
+«La vie est belle.» – Anonyme
+«Sois fidèle à tes rêves.» – Anonyme
+«L’espoir est la plus grande force.» – Anonyme
+«Sois humble.» – Anonyme
+«La vie est un don.» – Anonyme
+«Sois gentil.» – Anonyme
+«Chaque sourire compte.» – Anonyme
+«La vie est belle.» – Anonyme
+«Sois fidèle à toi-même.» – Anonyme
+«Chaque jour est un cadeau.» – Anonyme
+«La vie est trop courte pour s’inquiéter.» – Anonyme
+«Sois optimiste.» – Anonyme
+«La gentillesse change le monde.» – Anonyme
+«Sois courageux.» – Anonyme
+«La vie est trop courte pour les regrets.» – Anonyme
+«Sois présent.» – Anonyme
+«Chaque sourire est un cadeau.» – Anonyme
+«La vie est belle.» – Anonyme
+«Sois fidèle à tes rêves.» – Anonyme
+«L’espoir est la plus grande force.» – Anonyme
+«Sois reconnaissant chaque jour.» – Anonyme
+«La vie est un miracle.» – Anonyme
+«Sois gentil avec toi-même.» – Anonyme
+«Chaque instant est précieux.» – Anonyme
+«La vie est un voyage magnifique.» – Anonyme
+«Sois optimiste.» – Anonyme
+«La gentillesse n’a pas de prix.» – Anonyme
+«Sois toi-même, toujours.» – Anonyme
+«La vie est faite de choix.» – Anonyme
+«Sois courageux.» – Anonyme
+«Le bonheur est en toi.» – Anonyme
+«Chaque jour est un nouveau commencement.» – Anonyme
+«La vie est trop courte pour la gâcher.» – Anonyme
+«Sois reconnaissant.» – Anonyme
+«La vie est belle quand on la vit avec amour.» – Anonyme
+«Sois présent dans l’instant.» – Anonyme
+«L’espoir est important.» – Anonyme
+«Sois humble.» – Anonyme
+«La vie est un don.» – Anonyme
+«Sois gentil.» – Anonyme
+«Chaque sourire compte.» – Anonyme
+«La vie est belle.» – Anonyme
+«Sois fidèle à toi-même.» – Anonyme
+«Chaque jour est un cadeau.» – Anonyme
+«La vie est trop courte pour s’inquiéter.» – Anonyme
+«Sois optimiste.» – Anonyme
+«La gentillesse change le monde.» – Anonyme
+«Sois courageux.» – Anonyme
+«La vie est trop courte pour les regrets.» – Anonyme
+«Sois présent.» – Anonyme
+«Chaque sourire est un cadeau.» – Anonyme
+«La vie est belle.» – Anonyme
+«Sois fidèle à tes rêves.» – Anonyme
+«L’espoir est la plus grande force.» – Anonyme

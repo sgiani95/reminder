@@ -249,23 +249,15 @@ HEADERS = {
     'User-Agent': 'PytstsyToDobot/1.0 (Telegram bot; https://github.com/sgiani95/reminder)'
 }
 
+import random
+
 async def send_reminders(context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Daily reminder check: send reminders if upcoming events, else a rotating quote."""
+    """Check for upcoming events and send reminders.
+    If none, send a random quote from quotes.txt."""
     logger.info("Running daily reminder check")
 
-    # Your global events list (assuming it's already loaded)
-    global events
-
-    current_time = datetime.now()
-    reminder_threshold = current_time + timedelta(hours=24)
-
-    # Find upcoming events (same logic as before)
-    upcoming_events = []
-    for event in events:
-        if event["type"] == "terminated" and event["active"]:
-            dt, _, _ = parse_datetime(event["time"])
-            if dt and current_time <= dt <= reminder_threshold:
-                upcoming_events.append(event)
+    # Find upcoming events
+    upcoming_events = EVENT_MANAGER.get_upcoming_for_reminders()   # Use your existing method if available
 
     if upcoming_events:
         # Send normal reminders
@@ -273,91 +265,34 @@ async def send_reminders(context: ContextTypes.DEFAULT_TYPE) -> None:
             message = f"🔔 Reminder: {event['message']} is scheduled for {event['time']}!"
             try:
                 await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=message)
-                logger.info(f"Reminder sent: {event['message']} ({event['time']})")
+                logger.info(f"Reminder sent: {event['message']}")
             except Exception as e:
                 logger.error(f"Failed to send reminder for {event['message']}: {str(e)}")
         return
 
-    # No upcoming events → send rotating quote
+    # No upcoming events → send random quote from quotes.txt
+    try:
+        with open("quotes.txt", "r", encoding="utf-8") as f:
+            quotes = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+        
+        if quotes:
+            quote = random.choice(quotes)
+        else:
+            quote = "No quotes available in quotes.txt"
+    except FileNotFoundError:
+        quote = "quotes.txt not found. Please create it with one quote per line."
+    except Exception as e:
+        logger.error(f"Error reading quotes.txt: {str(e)}")
+        quote = "Error loading quotes."
 
-    # Determine today's language
-    weekday = current_time.isoweekday()          # 1 = Monday ... 7 = Sunday
-    lang = LANGUAGE_ROTATION[weekday - 1]        # 0-based index
-
-    quote = None
-    lang_name = {"it": "Italian", "en": "English", "de": "German"}[lang]
+    final_message = f"Buongiorno!\nOggi nessun appuntamento.\n\n{quote}"
 
     try:
-        r = requests.get(WIKI_URLS[lang], headers=HEADERS, timeout=10)
-        r.raise_for_status()
-        html = r.text
-
-        # Improved patterns - match quote between heading and attribution/edit link
-        if lang == "it":
-            m = re.search(
-                r'(?:Citazione del giorno|Citazione della settimana).*?<p[^>]*>\s*(“[^”]+?”)\s*(?:<br\s*/?>)?\s*(?:<small>)?\s*—?\s*([^<]+)',
-                html, re.DOTALL | re.IGNORECASE
-            )
-        elif lang == "en":
-            m = re.search(
-                r'(?:Quote of the day|Quote of the week).*?>([^~]+?)\s*~([^~]+?)~',
-                html, re.DOTALL | re.IGNORECASE
-            )
-        else:  # de
-            m = re.search(
-                r'(?:Zitat der Woche|Zitat des Tages).*?<p[^>]*>\s*(“[^”]+?”)\s*(?:<br\s*/?>)?\s*(?:<small>)?\s*—?\s*([^<]+)',
-                html, re.DOTALL | re.IGNORECASE
-            )
-
-        if m:
-            if lang == "en":
-                quote_text = m.group(1).strip()
-                author = m.group(2).strip()
-                quote = f"{quote_text}\n~ {author} ~"
-            else:
-                quote = m.group(1).strip()
-                author_part = m.group(2).strip() if len(m.groups()) > 1 else ""
-                if author_part:
-                    quote += f" — {author_part}"
-            # Clean up
-            quote = unescape(quote)
-            quote = re.sub(r'<.*?>|\[\[.*?\]\]|{{.*?}}|\[http[^\]]+\]', '', quote)
-            quote = re.sub(r'\s+', ' ', quote).strip()
-            if len(quote) > 30:
-                logger.info(f"Successfully extracted {lang_name} quote")
-            else:
-                quote = None
-
+        await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=final_message)
+        logger.info("Sent quote of the day from quotes.txt")
     except Exception as e:
-        logger.warning(f"Failed to fetch {lang_name} quote: {e}")
-        quote = None
-    
-    # Fallback if no quote was found
-    if not quote:
-        quote = {
-            "it": FALLBACK_IT,
-            "en": FALLBACK_EN,
-            "de": FALLBACK_DE
-        }[lang]
+        logger.error(f"Failed to send quote: {str(e)}")
 
-    # Build final message
-    header = {
-        "it": "Buongiorno! Oggi nessun appuntamento – ecco la citazione del giorno:\n\n",
-        "en": "Good morning! No appointments today – here’s the quote of the day:\n\n",
-        "de": "Guten Morgen! Heute keine Termine – hier ist das Zitat der Woche:\n\n"
-    }[lang]
-
-    final_message = header + quote
-
-    try:
-        await context.bot.send_message(
-            chat_id=GROUP_CHAT_ID,
-            text=final_message
-        )
-        logger.info(f"Sent {lang_name} quote/fallback")
-    except Exception as e:
-        logger.error(f"Failed to send quote message: {e}")
-                            
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Handle /help command."""
     if not await validate_group(update, context):
